@@ -1,6 +1,9 @@
 Feelit
 ===
 
+* [Milestone](https://github.com/AcademiaSinicaNLPLab/emotion-web/issues/milestones)
+
+
 - A web interface for mongo looking-up
 
 * make sure the current internet is under the `iis.sinia.edu.tw` domain
