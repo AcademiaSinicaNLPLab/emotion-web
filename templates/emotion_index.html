@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<style type="text/css">
+			.info-wrap {
+				border-style: solid;
+				width: 500;
+				margin: auto;
+			}
+			.info {
+				text-align: center;
+				font-size: 18;
+				font-weight: bold;
+			}
+			.emotion-wrap {
+				width: 500;
+				margin: auto;
+			}
+			.emotion-button {
+				text-align: center;
+			}
+		</style>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				events();
+			});
+			function events(){
+				$('.emotion-button').click(function(){
+					location.href = "../" + $(this)[0].innerText;				
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div class="info-wrap">
+			<div class="info">LJ40K</div>
+		</div>
+		<table class="emotion-wrap">
+			{% for i in range(4) %}
+				<td>
+				{% for j in range(10) %}
+					<div>
+						<button class="emotion-button">{{ emotions[i*10+j] }}</button>
+					</div>
+				{% endfor %}				
+				</td>
+			{% endfor %}
+		</table>
+		<div> Emotion: <input> </div>
+		<div> Local docID: <input> </div>
+	</body>
+</html>
