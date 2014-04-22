@@ -1,12 +1,26 @@
 .info-wrap {
-	border-style: solid;
-	width: 500;
+	/*border-style: solid;*/
 	margin: auto;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+
+	border-bottom: 2px dashed #ccc;
 }
 .info {
-	text-align: center;
-	font-size: 18;
-	font-weight: bold;
+	display: inline-block;
+	background: #f6f6f6;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 4px 10px;
+	margin: 0 3px;
+
+	font-size: 18px;
+	color: #444;
+	
+	font-family: sans-serif;
+	letter-spacing: 1px;
 }
 
 .emotion-wrap {
@@ -33,4 +47,64 @@
 }
 .hide {
 	display: none;
+}
+
+
+a {
+	text-decoration: none;
+	color: black;
+}
+div.content-wrap {
+	width: 840px;
+	margin: 0 auto;
+}
+
+
+.emotion-items {
+	width: 100%;
+	min-height: 128px;
+	/*background: red;*/
+	margin: 0 auto;
+}
+.emotion-item, .docid-item {
+
+	text-align: center;
+	font-size: 18px;
+	
+	opacity: 0.75;
+}
+
+.emotion-item {
+	width: 160px;
+	height: 32px;
+	line-height: 32px;	
+	display: inline-table;
+	font-family: sans-serif;
+	color: black;
+}
+.emotion-item:hover {
+	cursor: pointer;
+	background: #4a8af5;
+	color: white;
+	opacity: 1.0;
+}
+
+.docid-item {
+	width: 84px;
+	height: 28px;
+	line-height: 28px;	
+	font-family: monospace;
+	float: left;
+	
+}
+.docid-item:hover {
+	text-decoration: underline;
+	cursor: pointer;
+	opacity: 1.0;
+}
+.theme-1 {
+	background: #FFFEE5;
+}
+.theme-0 {
+	background: #E4FFDD;
 }

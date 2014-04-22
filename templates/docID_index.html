@@ -1,18 +1,16 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="info-wrap">
-	<div class="info">{{ emotion }}</div>
-</div>
-<table class='docID-wrap'>
-	{% for i in range(10) %}
-		<td>
-		{% for j in range(20) %}
-			<div>
-				<button class="docID-button">{{ 800+i*20+j }}</button>
-			</div>
-		{% endfor %}
-		</td>
+<div class="content-wrap">
+	<div class="info-wrap">
+		<div class="info"><a href="/">LJ40K</a></div>
+		<div class="info">{{ emotion }}</div>
+	</div>
+
+	{% for i in range(200) %}
+	<a href="/{{ emotion }}/{{ 800+i }}" class="docid-item-wrap">
+		<div class="docid-item theme-{{ i%2 }}">{{ 800+i }}</div>
+	</a>
 	{% endfor %}
-</table>
+</div>
 {% endblock %}

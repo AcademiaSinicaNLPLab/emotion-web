@@ -1,20 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="info-wrap">
-	<div class="info">LJ40K</div>
-</div>
-<table class="emotion-wrap">
-	{% for i in range(4) %}
-		<td>
-		{% for j in range(10) %}
-			<div>
-				<button class="emotion-button">{{ emotions[i*10+j] }}</button>
-			</div>
-		{% endfor %}
-		</td>
+<div class="content-wrap">
+	<div class="info-wrap">
+		<div class="info">LJ40K</div>
+	</div>
+	
+	<div class="emotion-items">
+	{% for i in range(40) %}
+		<a href="/{{ emotions[i] }}"><div class="emotion-item">{{ emotions[i] }}</div></a>
 	{% endfor %}
-</table>
-<div> Emotion: <input> </div>
-<div> Local docID: <input> </div>
+	</div>
+	<!-- <div> Emotion: <input> </div> -->
+	<!-- <div> Local docID: <input> </div> -->
+</div>
 {% endblock %}
