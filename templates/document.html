@@ -1,51 +1,16 @@
-<html>
-	<head>
-		<style type="text/css">
-			.info-wrap {
-				border-style: solid;
-				width: 500;
-				margin: auto;
-			}
-			.info {
-				text-align: center;
-				font-size: 18;
-				font-weight: bold;
-			}
-			.sent {
-				cursor: pointer;
-			}
-			.pat {
-				color: blue;
-			}
-			.hide {				
-				/*visibility: hidden;*/
-				display: none;
-			}
-		</style>
-		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function(){
-				events();
-			});
-			function events(){
-				$('.sent').hover(function(){
-					$(this).siblings('.pat').toggleClass('hide');
-				});
-			}
-		</script>
-	</head>
-	<body>
-		<div class="info-wrap">
-			<div class="info">{{ emotion }}</div>
-			<div class="info">{{ ldocID }}</div>
-		</div>
-		<ol type='1'>
-			{% for e, d in data %}
-				<li class="sent-wrap">
-					<div class="sent">{{ e }}</div>
-					<span class="pat hide">{{ d }}</span>
-				</li>
-			{% endfor %}
-		</ol>
-	</body>
-</html>
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="info-wrap">
+	<div class="info">{{ emotion }}</div>
+	<div class="info">{{ ldocID }}</div>
+</div>
+<ol type='1'>
+	{% for e, d in data %}
+		<li class="sent-wrap">
+			<div class="sent">{{ e }}</div>
+			<span class="pat hide">{{ d }}</span>
+		</li>
+	{% endfor %}
+</ol>
+{% endblock %}

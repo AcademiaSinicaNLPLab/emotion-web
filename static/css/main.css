@@ -1,0 +1,36 @@
+.info-wrap {
+	border-style: solid;
+	width: 500;
+	margin: auto;
+}
+.info {
+	text-align: center;
+	font-size: 18;
+	font-weight: bold;
+}
+
+.emotion-wrap {
+	width: 500;
+	margin: auto;
+}
+.emotion-button {
+	text-align: center;
+}
+
+.docID-wrap {
+	width: 800;
+	margin: auto;
+}
+.docID {
+	text-align: center;
+}
+
+.sent {
+	cursor: pointer;
+}
+.pat {
+	color: blue;
+}
+.hide {
+	display: none;
+}

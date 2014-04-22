@@ -1,16 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 import fetch_mongo
 app = Flask(__name__)
 
 @app.route("/")
-def home():
-	return "Home!!"
-
-@app.route("/test/")
-def test_page():
-	return "XD"
-
-@app.route("/index/")
 def emotion_index():
 	return render_template( 'emotion_index.html', emotions=fetch_mongo.emotion_list() )
 

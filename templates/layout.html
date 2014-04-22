@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>
