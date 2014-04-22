@@ -12,6 +12,9 @@ def docID_index(emotion):
 
 @app.route('/<emotion>/<int:ldocID>/')
 def document(emotion, ldocID):
+	# data = 
+	# sent, pat_list for sent, pat_lst in data:
+
 	return render_template( 'document.html', emotion=emotion, ldocID=ldocID, data=fetch_mongo.sp_pairs(emotion, ldocID) )
 
 
