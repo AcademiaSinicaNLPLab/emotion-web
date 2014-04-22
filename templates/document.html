@@ -40,10 +40,12 @@
 			<div class="info">{{ ldocID }}</div>
 		</div>
 		<ol type='1'>
-			{% for e, d in data %}
+			{% for sent, pats in data %}
 				<li class="sent-wrap">
-					<div class="sent">{{ e }}</div>
-					<span class="pat hide">{{ d }}</span>
+					<div class="sent">{{ sent }}</div>
+					{% for p in pats %}
+						<div class="pat hide">{{ p }}</div>
+					{% endfor %}
 				</li>
 			{% endfor %}
 		</ol>
