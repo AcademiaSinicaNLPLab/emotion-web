@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "_head.html" %}
 
 {% block content %}
 <div class="content-wrap">
@@ -25,5 +25,12 @@
 			</li>
 		{% endfor %}
 	</ol>
+	<hr />
+
+	<div id="chart-container">
+		<label>
+			<input type="checkbox"> Sort values</input>
+		</label>
+	</div>
 </div>
 {% endblock %}

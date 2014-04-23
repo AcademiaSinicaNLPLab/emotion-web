@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "_head.html" %}
 
 {% block content %}
 <div class="content-wrap">
@@ -11,7 +11,5 @@
 		<a href="/{{ emotions[i] }}"><div class="emotion-item">{{ emotions[i] }}</div></a>
 	{% endfor %}
 	</div>
-	<!-- <div> Emotion: <input> </div> -->
-	<!-- <div> Local docID: <input> </div> -->
 </div>
 {% endblock %}

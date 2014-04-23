@@ -1,0 +1,39 @@
+/*body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  width: 960px;
+}*/
+
+#chart-container {
+	position: relative;
+}
+
+.axis text {
+  font: 11px sans-serif;
+  fill: #444;
+}
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #aaa;
+  shape-rendering: crispEdges;
+}
+/*.axis .tick line {
+	fill: red;
+}*/
+.bar {
+  fill: steelblue;
+  /*fill-opacity: .9;*/
+}
+
+.x.axis path {
+  /*display: none;*/
+}
+
+label {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
