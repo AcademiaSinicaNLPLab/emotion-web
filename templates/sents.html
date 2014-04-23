@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "_head.html" %}
 
 {% block content %}
 <div class="content-wrap">
@@ -25,5 +25,22 @@
 			</li>
 		{% endfor %}
 	</ol>
+	<div class="mask hide">
+
+	</div>
+	<!-- <hr /> -->
+
+	<div id="chart-container" class="container hide">
+		<div class="chart-wrap wrap">
+			<label class="pattern">pattern</label>
+			<label class="close">X</label>
+			<label class="checkbox-wrap">
+				<span>sort</span>
+				<input type="checkbox" class="hide"></input>
+			</label>			
+		</div>
+
+
+	</div>
 </div>
 {% endblock %}

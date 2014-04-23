@@ -1,4 +1,4 @@
-import pymongo
+import pymongo, json
 
 # emotion = "crazy"
 # ldocID = 0
@@ -11,6 +11,7 @@ co_emotions = db['emotions']
 co_docmap = db['docs']
 co_sents = db['sents']
 co_pats = db['pats']
+co_lexicon = db['lexicon']
 
 def emotion_list():
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
@@ -27,6 +28,19 @@ def sp_pairs(emotion, ldocID):
 
 		pairs.append( (sent['sent'], [x[0] for x in pats]) )
 	return pairs
+
+def get_pat_dist(pat, percent=True):
+	fetch = list(co_lexicon.find({'pattern': pat}))
+	
+	S = 1 if not percent else float(sum([x['count'] for x in fetch]))
+
+	data = [ {'key':doc['emotion'], 'val':doc['count']/S} for doc in fetch]
+	
+	# data = [ {'key':doc['emotion'], 'val':doc['count']} for doc in fetch]
+	# for 
+	return json.dumps(data)
+
+
 
 
 if __name__ == '__main__':
