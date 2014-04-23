@@ -14,12 +14,6 @@ var one_bar = 10;
 
 function calculate_w_h(w, h, number){
 
-  // var c_Height = $(document.body)[0].clientHeight;
-  
-
-  // console.log(c_Width);
-  // console.log(c_Height);
-
   var extra = number*one_bar;
 
   width = w + extra - margin.left - margin.right;
@@ -61,19 +55,21 @@ function align() {
   });    
 }
 
-function draw(data, number)
+function draw(data)
 {
-  calculate_w_h(w, h, number);
+  $('#chart-container').find('svg').remove();
+  // svg = '';
+
+  calculate_w_h(w, h, data.length);
+
   var c_Width = $(document.body)[0].clientWidth;
-
   var left_offset = c_Width-width < 0 ? 0 : (c_Width-width)/2
+  var position = {left: left_offset, top: 30};
 
-
-  var position = {left: left_offset, top: 20};
   $('#chart-container').css({ 'left': position.left, 'top':position.top })
 
-  // d3.select("#chart-container").remove();
-  $('#chart-container').find('svg').remove();
+  
+
   svg = d3.select("#chart-container").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -134,7 +130,7 @@ function draw(data, number)
     align();
 
     var checkbox_wrap = $('#chart-container').find('.checkbox-wrap');
-    checkbox_wrap.toggleClass('checked');   
+    checkbox_wrap.toggleClass('checked');
   });
 
   align();

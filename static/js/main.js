@@ -2,6 +2,8 @@ $(document).ready(function(){
 	events();
 });
 
+var current = '';
+var prev = '';
 var data = [];
 
 function events(){
@@ -19,31 +21,45 @@ function events(){
 
 	$('.pat').click(function(){
 		var pattern = $(this).text();
+
 		$('#chart-container').find('.pattern').text(pattern);
+		// $('#chart-container').find('svg').html('');
 
+		current = pattern.toLowerCase();
+		if( current == prev ){
+			$('#chart-container').removeClass('hide');
+			$('.mask').removeClass('hide');
+		}else{
+			prev = current;
 
-		$.getJSON('/api/pat/'+pattern.toLowerCase(), function(data){
+			// reset sort
+			// truncate data
+			// 
+			$.getJSON('/api/pat/'+pattern.toLowerCase(), function(data){
 
-			var number = 0;
+				if(data.length == 0) { return false; }
 
-			console.log(data.length);
+		    	var checkbox_wrap = $('#chart-container').find('.checkbox-wrap');
+		    	checkbox_wrap.removeClass('checked');
 
-			if(data.length == 0) {
-				return false;
-			}
-			draw(data, data.length);
-			$('#chart-container').toggleClass('hide');
-			$('.mask').toggleClass('hide');
-		});
+				draw(data);
 
-		
+				$('#chart-container').removeClass('hide');
+				$('.mask').removeClass('hide');
+			});
+
+		}
+
 	});
 	$('.close').click(function(){
-		$(this).parents('.container').toggleClass('hide');
-		$('.mask').toggleClass('hide');
+		$(this).parents('.container').addClass('hide');
+		$('.mask').addClass('hide');
+
+		// $('#chart-container').find('svg').html('');
 	});
 	$('.mask').click(function(){
 		$('.close').click();
 	});
+    
 }
 
