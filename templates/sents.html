@@ -1,0 +1,46 @@
+{% extends "_head.html" %}
+
+{% block content %}
+<div class="content-wrap">
+	<div class="info-wrap">
+		<div class="info"><a href="/">LJ40K</a></div>
+		<div class="info"><a href="/{{ emotion }}">{{ emotion }}</a></div>
+		<div class="info">{{ ldocID }}</div>
+	</div>
+<!-- 	<div class="control-wrap">
+		<div class="btn"><span>v</span>auto</div>
+		<div class="btn"><span>v</span>hide</div>
+		<div class="btn"><span>v</span>show</div>
+	</div> -->
+	<ol type='1'>
+		{% for sent, pats in data %}
+			<li class="sent-wrap">
+				<div class="sent">{{ sent }}</div>
+				<div class="pats">
+				{% for pat in pats %}
+					<div class="pat">{{ pat }}</div>
+				{% endfor %}					
+				</div>
+
+			</li>
+		{% endfor %}
+	</ol>
+	<div class="mask hide">
+
+	</div>
+	<!-- <hr /> -->
+
+	<div id="chart-container" class="container hide">
+		<div class="chart-wrap wrap">
+			<label class="pattern">pattern</label>
+			<label class="close">X</label>
+			<label class="checkbox-wrap">
+				<span>sort</span>
+				<input type="checkbox" class="hide"></input>
+			</label>			
+		</div>
+
+
+	</div>
+</div>
+{% endblock %}
