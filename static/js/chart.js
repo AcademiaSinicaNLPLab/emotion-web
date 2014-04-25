@@ -1,4 +1,4 @@
-var w = 840;
+var w = 1200;
 var h = 500;
 var width;
 var height;
@@ -12,17 +12,13 @@ var svg;
 var number = 0;
 var one_bar = 10;
 
-function calculate_w_h(w, h, number){
+function calculate_w_h(w, h)
+{
 
-  // var c_Height = $(document.body)[0].clientHeight;
-  
+  // var extra = number*one_bar;
 
-  // console.log(c_Width);
-  // console.log(c_Height);
-
-  var extra = number*one_bar;
-
-  width = w + extra - margin.left - margin.right;
+  // width = w + extra - margin.left - margin.right;
+  width = w - margin.left - margin.right;
   height = h - margin.top - margin.bottom;
 
   x = d3.scale.ordinal()
@@ -61,9 +57,9 @@ function align() {
   });    
 }
 
-function draw(data, number)
+function draw(data)
 {
-  calculate_w_h(w, h, number);
+  calculate_w_h(w, h);
   var c_Width = $(document.body)[0].clientWidth;
 
   var left_offset = c_Width-width < 0 ? 0 : (c_Width-width)/2
@@ -111,31 +107,33 @@ function draw(data, number)
       .attr("y", function(d) { return y(d.val); })
       .attr("height", function(d) { return height - y(d.val); });
 
-  d3.select("input").on("change", function(){
-    // Copy-on-write since tweens are evaluated after a delay.
-    var x0 = x.domain(data.sort(this.checked
-        ? function(a, b) { return b.val - a.val; }
-        : function(a, b) { return d3.ascending(a.key, b.key); })
-        .map(function(d) { return d.key; }))
-        .copy();
-
-    var transition = svg.transition().duration(200),
-        delay = function(d, i) { return i * 0; };
-
-    transition.selectAll(".bar")
-        .delay(delay)
-        .attr("x", function(d) { return x0(d.key); });
-
-    transition.select(".x.axis")
-        .call(xAxis)
-      .selectAll("g")
-        .delay(delay);
-
-    align();
-
-    var checkbox_wrap = $('#chart-container').find('.checkbox-wrap');
-    checkbox_wrap.toggleClass('checked');   
-  });
-
   align();
+
+  // d3.select("input").on("change", function(){
+  //   // Copy-on-write since tweens are evaluated after a delay.
+  //   var x0 = x.domain(data.sort(this.checked
+  //       ? function(a, b) { return b.val - a.val; }
+  //       : function(a, b) { return d3.ascending(a.key, b.key); })
+  //       .map(function(d) { return d.key; }))
+  //       .copy();
+
+  //   var transition = svg.transition().duration(200),
+  //       delay = function(d, i) { return i * 0; };
+
+  //   transition.selectAll(".bar")
+  //       .delay(delay)
+  //       .attr("x", function(d) { return x0(d.key); });
+
+  //   transition.select(".x.axis")
+  //       .call(xAxis)
+  //     .selectAll("g")
+  //       .delay(delay);
+
+  //   align();
+
+  //   var checkbox_wrap = $('#chart-container').find('.checkbox-wrap');
+  //   checkbox_wrap.toggleClass('checked');   
+  // });
+
+  
 }

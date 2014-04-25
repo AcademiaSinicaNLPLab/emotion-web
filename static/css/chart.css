@@ -42,8 +42,10 @@
 
 .chart-wrap .pattern {
 	float: left;
-	border: 1px dashed #ccc;
-	background: #c7fda9;
+	color: #444;
+	font-size: 20px;
+	border-bottom: 1px dashed #ccc;
+	/*background: #c7fda9;*/
 	/*color: white;*/
 	/*background: #4582b4;*/
 

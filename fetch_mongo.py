@@ -1,5 +1,5 @@
 import pymongo, json
-
+from pprint import pprint
 # emotion = "crazy"
 # ldocID = 0
 # output = [(sent, pats), ...]
@@ -12,6 +12,9 @@ co_docmap = db['docs']
 co_sents = db['sents']
 co_pats = db['pats']
 co_lexicon = db['lexicon']
+
+emo_list = None
+
 
 def emotion_list():
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
@@ -29,22 +32,49 @@ def sp_pairs(emotion, ldocID):
 		pairs.append( (sent['sent'], [x[0] for x in pats]) )
 	return pairs
 
-def get_pat_dist(pat, percent=True):
-	fetch = list(co_lexicon.find({'pattern': pat}))
-	
-	S = 1 if not percent else float(sum([x['count'] for x in fetch]))
 
-	data = [ {'key':doc['emotion'], 'val':doc['count']/S} for doc in fetch]
-	
-	# data = [ {'key':doc['emotion'], 'val':doc['count']} for doc in fetch]
-	# for 
+def get_pat_dist(pat, percent=True):
+
+	global emo_list
+
+	if not emo_list:
+		emo_list = emotion_list()
+
+	fetch = list(co_lexicon.find({'pattern': pat}))
+
+	if len(fetch) > 0: 
+
+		D = dict([(x['emotion'],x['count']) for x in fetch])
+
+		C = {}
+		for x in emo_list:
+			if x in D:
+				C[x] = D[x]
+			else:
+				C[x] = 0.0
+
+		# print C
+
+		S = 1 if not percent else float(sum([x['count'] for x in fetch]))
+
+		if S == 0:
+			data = []
+		else:
+			data = [ {'key':x, 'val':C[x]/S} for x in C]
+
+		data.sort(key=lambda x:x['val'], reverse=True)
+	else:
+		data = []
+
 	return json.dumps(data)
 
 
 
 
 if __name__ == '__main__':
-	emotion = "crazy"
-	ldocID = 0
-	pairs = sent_pat_pairs(emotion, ldocID)
+	
+	print get_pat_dist('i am pissed')
+	# emotion = "crazy"
+	# ldocID = 0
+	# pairs = sent_pat_pairs(emotion, ldocID)
 
