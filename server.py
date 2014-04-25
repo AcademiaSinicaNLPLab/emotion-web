@@ -25,5 +25,18 @@ def showplot(pat):
 	return fetch_mongo.get_pat_dist(pat)
 
 if __name__ == "__main__":
-	app.debug = True
-	app.run(host='0.0.0.0')
+	import getopt, sys
+
+	_port = 5000
+	app.debug = False
+
+	try:
+		opts, args = getopt.getopt(sys.argv[1:],'p:d',['port=', 'debug'])
+	except getopt.GetoptError:
+		exit(2)
+
+	for opt, arg in opts:
+		if opt in ('-p', '--port'): _port = int(arg.strip())
+		elif opt in ('-d','--debug'): app.debug = True
+
+	app.run(host='0.0.0.0', port=_port)
