@@ -9,14 +9,14 @@ Feelit
   
   ```python
   
-  # use default setting
-  # port: 5000
-  # debug: false
-  python server.py
+# use default setting
+# port: 5000
+# debug: false
+python server.py
 
-  # enter debug mode
-  python server -d # or --debug
+# enter debug mode
+python server -d # or --debug
 
-  # specified port number
-  python server -p 8888
+# specified port number
+python server -p 8888
   ```
