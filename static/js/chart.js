@@ -12,16 +12,9 @@ var svg;
 var number = 0;
 var one_bar = 10;
 
-<<<<<<< HEAD
-function calculate_w_h(w, h, number){
-
-  var extra = number*one_bar;
-=======
 function calculate_w_h(w, h)
 {
 
-  // var extra = number*one_bar;
->>>>>>> interactive
 
   // width = w + extra - margin.left - margin.right;
   width = w - margin.left - margin.right;

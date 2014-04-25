@@ -9,6 +9,7 @@
 	top: 0;
 	background: white;
 	padding: 10px;
+	z-index: 1000;
 	/*border: 1px solid #aaa;*/
 }
 #chart-container .chart-wrap {

@@ -37,6 +37,9 @@ function autoStyling() {
 }
 
 function events(){
+
+
+
 	$('.emotion-button').click(function(){
 		location.href = "../" + $(this)[0].innerText;
 	});
@@ -62,12 +65,15 @@ function events(){
 		}else{
 			prev = current;
 
+			var obj = $(this);
 			// truncate data
 			$.getJSON('/api/pat/'+pattern.toLowerCase(), function(data){
 
-				var obj = $(this);
-		    	var checkbox_wrap = $('#chart-container').find('.checkbox-wrap');
-		    	checkbox_wrap.removeClass('checked');
+		    	if(data.length == 0)
+		    	{
+		    		obj.addClass('lock').removeClass('open');
+		    		return false;
+		    	}
 
 				draw(data);
 
@@ -85,6 +91,14 @@ function events(){
 	$('.mask').click(function(){
 		$('.close').click();
 	});
-
+	$(document).keyup(function(e){
+		if(e.which == 27 || e.keyCode == 27)
+		{
+			if( !$('#chart-container').hasClass('hide') )
+			{
+				$('.close').click();
+			}
+		}
+	});
 }
 
