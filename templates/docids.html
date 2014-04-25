@@ -3,8 +3,20 @@
 {% block content %}
 <div class="content-wrap">
 	<div class="info-wrap">
-		<div class="info"><a href="/">LJ40K</a></div>
-		<div class="info">{{ emotion }}</div>
+		<a href="/">
+		<div class="info-block">
+			<div class="info-text info-element">LJ40K</div>
+			<div class="info-tri arrow-right info-element"></div>
+			<div class="info-tri-shadow arrow-right"></div>
+		</div>
+		</a>
+		<a href="/{{ emotion }}">
+		<div class="info-block">
+			<div class="info-text info-element">{{ emotion }}</div>
+			<div class="info-tri arrow-right info-element"></div>
+			<div class="info-tri-shadow arrow-right"></div>
+		</div>
+		</a>
 	</div>
 
 	{% for i in range(200) %}

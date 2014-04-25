@@ -3,22 +3,36 @@
 {% block content %}
 <div class="content-wrap">
 	<div class="info-wrap">
-		<div class="info"><a href="/">LJ40K</a></div>
-		<div class="info"><a href="/{{ emotion }}">{{ emotion }}</a></div>
-		<div class="info">{{ ldocID }}</div>
+		<a href="/">
+		<div class="info-block">
+			<div class="info-text info-element">LJ40K</div>
+			<div class="info-tri arrow-right info-element"></div>
+			<div class="info-tri-shadow arrow-right"></div>
+		</div>
+		</a>
+		<a href="/{{ emotion }}">
+		<div class="info-block">
+			<div class="info-text info-element">{{ emotion }}</div>
+			<div class="info-tri arrow-right info-element"></div>
+			<div class="info-tri-shadow arrow-right"></div>
+		</div>
+		</a>
+		<a href="#">
+		<div class="info-block">
+			<div class="info-text info-element">{{ ldocID }}</div>
+			<div class="info-tri arrow-right info-element"></div>
+			<div class="info-tri-shadow arrow-right"></div>
+		</div>
+		</a>
 	</div>
-<!-- 	<div class="control-wrap">
-		<div class="btn"><span>v</span>auto</div>
-		<div class="btn"><span>v</span>hide</div>
-		<div class="btn"><span>v</span>show</div>
-	</div> -->
+
 	<ol type='1'>
 		{% for sent, pats in data %}
 			<li class="sent-wrap">
 				<div class="sent">{{ sent }}</div>
 				<div class="pats">
 				{% for pat in pats %}
-					<div class="pat">{{ pat }}</div>
+					<div class="pat open">{{ pat }}</div>
 				{% endfor %}					
 				</div>
 
@@ -34,10 +48,10 @@
 		<div class="chart-wrap wrap">
 			<label class="pattern">pattern</label>
 			<label class="close">X</label>
-			<label class="checkbox-wrap">
-				<span>sort</span>
-				<input type="checkbox" class="hide"></input>
-			</label>			
+			<!-- <label class="checkbox-wrap"> -->
+				<!-- <span>sort</span> -->
+				<!-- <input type="checkbox" class="hide"></input> -->
+			<!-- </label> -->
 		</div>
 
 
