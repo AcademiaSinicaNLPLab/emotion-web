@@ -40,7 +40,12 @@ def get_pat_dist(pat, percent=True):
 	# for 
 	return json.dumps(data)
 
+def get_sents_by_pat(pat):
+	fetch = list(co_pats.find({'pattern':pat}))
 
+	fetch = [x if co_docs.find_one({'udocID':x['udocID']})['ldocID'] < 800 for x in fetch]
+
+	sents = x['usentID'] for x in fetch
 
 
 if __name__ == '__main__':
