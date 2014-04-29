@@ -12,16 +12,25 @@ co_docmap = db['docs']
 co_sents = db['sents']
 co_pats = db['pats']
 co_lexicon = db['lexicon']
+co_docs = db['docs']
 
 emo_list = None
 
+docscore_categories = [
+	'docscore_d0_g3_l0_p2_s0', 
+	'docscore_d0_g3_l0_p2_s1', 
+	'docscore_d0_g3_l3_p2_s0'
+	'docscore_d0_g3_l5_p2_s0'
+]
 
 def emotion_list():
+	
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
 	return sorted( [x['emotion'] for x in emotions] )
 
 
 def sp_pairs(emotion, ldocID):
+	
 	udocID = co_docmap.find_one( {'emotion': emotion, 'ldocID': ldocID} )['udocID']
 	pairs = []
 	sents = sorted( list( co_sents.find( {'udocID': udocID} ) ), key=lambda x:x['usentID'] )
@@ -68,12 +77,20 @@ def get_pat_dist(pat, percent=True):
 
 	return json.dumps(data)
 
+
 def get_sents_by_pat(pat):
-	fetch = list(co_pats.find({'pattern':pat}))
 
-	fetch = [x if co_docs.find_one({'udocID':x['udocID']})['ldocID'] < 800 for x in fetch]
+	sents = []
+	pat_mdoc_list = list(co_pats.find({'pattern':pat}))
+	for pat_mdoc in pat_mdoc_list:
+		if co_docs.find_one({'udocID': pat_mdoc['udocID']})['ldocID'] < 800: 
+			sents.append( co_sents.find_one({'usentID': pat_mdoc['usentID']})['sent'] )
+	return sents
 
-	sents = x['usentID'] for x in fetch
+
+def get_docscores(udocID):
+	## dictionary: (docscore_categories, scores)
+	return { dc: db[dc].findOne({'udocID': udocID})['scores'] for dc in docscore_categories }
 
 
 if __name__ == '__main__':
@@ -82,4 +99,6 @@ if __name__ == '__main__':
 	# emotion = "crazy"
 	# ldocID = 0
 	# pairs = sent_pat_pairs(emotion, ldocID)
+
+	# print get_sents_by_pat('she wants nothing')
 
