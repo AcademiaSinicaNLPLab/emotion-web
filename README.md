@@ -1,21 +1,22 @@
 Feelit
 ===
 
-* [Milestone](https://github.com/AcademiaSinicaNLPLab/emotion-web/issues/milestones)
+* A web interface for patterns looking-up in LJ40K
 
+* make sure the current internet is under the `*.iis.sinia.edu.tw` domain
 
-- A web interface for mongo looking-up
-
-* make sure the current internet is under the `iis.sinia.edu.tw` domain
-
-* launch flask server
+## Usage
   
   ```python
-  python server.py
-  ```
-* have fun! 
   
-  ```python
-  open brower and access
-  http://localhost:5000/
+# use default setting
+# port: 5000
+# debug: false
+python server.py
+
+# enter debug mode
+python server -d # or --debug
+
+# specified port number
+python server -p 8888
   ```
