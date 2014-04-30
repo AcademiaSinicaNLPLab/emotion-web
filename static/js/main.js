@@ -38,19 +38,19 @@ function autoStyling() {
 
 function events(){
 
-
-
+	/*
 	$('.emotion-button').click(function(){
-		location.href = "../" + $(this)[0].innerText;
+		location.href = "../" + $(this).text();
 	});
 	
 	$('.docID-button').click(function(){
-		location.href = $(this)[0].innerText;
+		location.href = $(this).text();
 	});
 
 	$('.sent').hover(function(){
 		$(this).siblings('.pat').toggleClass('hide');
 	});	
+	*/
 
 	$('.pat').click(function(){
 		var pattern = $(this).text();
@@ -67,7 +67,7 @@ function events(){
 
 			var obj = $(this);
 			// truncate data
-			$.getJSON('/api/pat/'+pattern.toLowerCase(), function(data){
+			$.getJSON('/api/pat_distribution/'+pattern.toLowerCase(), function(data){
 
 		    	if(data.length == 0)
 		    	{

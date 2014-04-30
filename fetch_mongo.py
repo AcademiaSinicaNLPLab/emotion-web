@@ -1,5 +1,6 @@
 import pymongo, json
 from pprint import pprint
+from collections import defaultdict
 # emotion = "crazy"
 # ldocID = 0
 # output = [(sent, pats), ...]
@@ -23,13 +24,16 @@ docscore_categories = [
 	'docscore_d0_g3_l5_p2_s0'
 ]
 
-def emotion_list():
-	
+def get_emotion_list():
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
 	return sorted( [x['emotion'] for x in emotions] )
 
 
-def sp_pairs(emotion, ldocID):
+def get_docscore_categories(): 
+	return docscore_categories
+
+
+def get_sp_pairs(emotion, ldocID):
 	
 	udocID = co_docmap.find_one( {'emotion': emotion, 'ldocID': ldocID} )['udocID']
 	pairs = []
@@ -79,19 +83,27 @@ def get_pat_dist(pat, percent=True):
 
 
 def get_sents_by_pat(pat):
+	 
+	D = defaultdict(list)
 
-	sents = []
 	pat_mdoc_list = list(co_pats.find({'pattern':pat}))
+
 	for pat_mdoc in pat_mdoc_list:
+
 		if co_docs.find_one({'udocID': pat_mdoc['udocID']})['ldocID'] < 800: 
-			sents.append( co_sents.find_one({'usentID': pat_mdoc['usentID']})['sent'] )
-	return sents
+
+			sent_mdoc = co_sents.find_one({'usentID': pat_mdoc['usentID']})
+			D[sent_mdoc['emotion']].append(sent_mdoc['sent'])
+	data = [{'emotion': emotion, 'sentences': D[emotion]} for emotion in sorted(D, key=lambda x:len(D[x]), reverse=True)]
+
+	return json.dumps(data)
 
 
-def get_docscores(udocID):
-	## dictionary: (docscore_categories, scores)
-	return { dc: db[dc].findOne({'udocID': udocID})['scores'] for dc in docscore_categories }
-
+def get_docscores(udocID, docscore_category):
+	## type(scores)=dictionary
+	scores = db[docscore_category].findOne({'udocID': udocID})['scores']
+	data = [scores['emotion'] for emotion in sorted(scores, key=lambda x:scores[x], reverse=True)]
+	return json.dumps(data)
 
 if __name__ == '__main__':
 	
