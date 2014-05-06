@@ -51,33 +51,42 @@ function events(){
 		$(this).siblings('.pat').toggleClass('hide');
 	});	
 	*/
+	var prev = '';
+	var current = '';
 
 	$('.pat').click(function(){
 		var pattern = $(this).text();
 
 		$('#chart-container').find('.pattern').text(pattern);
-		// $('#chart-container').find('svg').html('');
 
-		current = pattern.toLowerCase();
-		if( current == prev ){
+		current = encodeURIComponent( pattern.toLowerCase() );
+
+		// click the same pattern, just show
+		if( current == prev )
+		{
 			$('#chart-container').removeClass('hide');
 			$('.mask').removeClass('hide');
-		}else{
+		}
+		// click different patterns, send ajax req
+		else
+		{
 			prev = current;
 
 			var obj = $(this);
-			// truncate data
-			$.getJSON('../../api/pat/'+pattern.toLowerCase(), function(data){
+			
+			$.getJSON('../../api/pat/'+current, function(data){
 		    	if(data.length == 0)
 		    	{
 		    		obj.addClass('lock').removeClass('open');
 		    		return false;
 		    	}
-
-				draw(data);
-
-				$('#chart-container').removeClass('hide');
-				$('.mask').removeClass('hide');
+		    	else {
+		    		draw(data);
+					$('#chart-container').removeClass('hide');
+					$('.mask').removeClass('hide');		    		
+		    	}
+			}).error(function(){
+				console.log('ajax error');
 			});
 
 		}
