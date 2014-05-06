@@ -67,7 +67,7 @@ function events(){
 
 			var obj = $(this);
 			// truncate data
-			$.getJSON('/api/pat/'+pattern.toLowerCase(), function(data){
+			$.getJSON('../../api/pat/'+pattern.toLowerCase(), function(data){
 
 		    	if(data.length == 0)
 		    	{

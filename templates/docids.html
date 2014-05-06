@@ -3,14 +3,14 @@
 {% block content %}
 <div class="content-wrap">
 	<div class="info-wrap">
-		<a href="/">
+		<a href="{{ url_for('list_emotions') }}">
 		<div class="info-block">
 			<div class="info-text info-element">LJ40K</div>
 			<div class="info-tri arrow-right info-element"></div>
 			<div class="info-tri-shadow arrow-right"></div>
 		</div>
 		</a>
-		<a href="/{{ emotion }}">
+		<a href="{{ url_for('list_emotions') }}{{ emotion }}">
 		<div class="info-block">
 			<div class="info-text info-element">{{ emotion }}</div>
 			<div class="info-tri arrow-right info-element"></div>
@@ -20,7 +20,7 @@
 	</div>
 
 	{% for i in range(200) %}
-	<a href="/{{ emotion }}/{{ 800+i }}" class="docid-item-wrap">
+	<a href="{{ url_for('list_emotions') }}{{ emotion }}/{{ 800+i }}" class="docid-item-wrap">
 		<div class="docid-item theme-{{ i%2 }}">{{ 800+i }}</div>
 	</a>
 	{% endfor %}
