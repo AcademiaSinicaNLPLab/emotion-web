@@ -82,11 +82,14 @@ def get_pat_dist(pat, percent=True):
 	return json.dumps(data)
 
 
-def get_sents_by_pat(pat):
+def get_sents_by_pat(pat, emo):
 	 
 	D = defaultdict(list)
 
-	pat_mdoc_list = list(co_pats.find({'pattern':pat}))
+	if not emo:
+		pat_mdoc_list = list(co_pats.find({'pattern':pat }))
+	else:
+		pat_mdoc_list = list(co_pats.find({'pattern':pat, 'emotion':emo}))
 
 	for pat_mdoc in pat_mdoc_list:
 
@@ -94,6 +97,7 @@ def get_sents_by_pat(pat):
 
 			sent_mdoc = co_sents.find_one({'usentID': pat_mdoc['usentID']})
 			D[sent_mdoc['emotion']].append(sent_mdoc['sent'])
+	
 	data = [{'emotion': emotion, 'sentences': D[emotion]} for emotion in sorted(D, key=lambda x:len(D[x]), reverse=True)]
 
 	return json.dumps(data)
