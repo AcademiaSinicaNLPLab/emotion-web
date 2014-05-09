@@ -1,4 +1,4 @@
-$(document).ready(function(){
+ㄊ$(document).ready(function(){
 	events();
 	autoStyling();
 });

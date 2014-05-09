@@ -80,10 +80,6 @@
 	fill: #444;
 }
 
-.axis text:hover {
-	cursor: pointer;
-}
-
 .axis path,
 .axis line {
 	fill: none;
