@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for
-import sys
+from flask import Flask, render_template, url_for, make_response, Response, jsonify
+import sys, json
 import fetch_mongo
 app = Flask(__name__)
 
@@ -23,9 +23,16 @@ def plot():
 @app.route('/api/pat_distribution/<pat>')
 @app.route('/api/pat_distribution/<pat>/')
 def showplot(pat):
-	print >> sys.stderr, '[info] Get pattern "'+pat+'"'
+	print >> sys.stderr, '[info] get pattern "'+pat+'"'
 	pat_data = fetch_mongo.get_pat_dist(pat)
-	return pat_data
+	print >> sys.stderr, '[info] data length:', len(pat_data)
+
+	if type(pat_data) == list and len(pat_data) == 0:
+		return Response(status=204, mimetype="application/json")
+	elif type(pat_data) == list and len(pat_data) > 0:
+		return jsonify(**pat_data)
+	else:
+		return Response(status=500)
 
 @app.route('/api/pat_sentences/<pat>')
 @app.route('/api/pat_sentences/<pat>/')
