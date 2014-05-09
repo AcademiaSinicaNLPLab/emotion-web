@@ -27,8 +27,11 @@ def showplot(pat):
 	return pat_data
 
 @app.route('/api/pat_sentences/<pat>')
-def showsents(pat):
-	return fetch_mongo.get_sents_by_pat(pat)
+@app.route('/api/pat_sentences/<pat>/')
+@app.route('/api/pat_sentences/<pat>/<emo>')
+@app.route('/api/pat_sentences/<pat>/<emo>/')
+def showsents(pat, emo=None):
+	return fetch_mongo.get_sents_by_pat(pat, emo)
 
 @app.route('/api/docscore/<udocID>/<docscore_category>')
 def showdocscore():
