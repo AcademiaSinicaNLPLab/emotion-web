@@ -73,23 +73,31 @@ function events(){
 			prev = current;
 
 			var obj = $(this);
-			
-			$.getJSON('../../api/pat_distribution/'+current, function(data){
-		    	if(data.length == 0)
-		    	{
-		    		obj.addClass('lock').removeClass('open');
-		    		return false;
-		    	}
-		    	else {
-		    		draw(data);
-					$('#chart-container').removeClass('hide');
-					$('.mask').removeClass('hide');		    		
-		    	}
-			}).error(function(){
-				obj.addClass('lock').removeClass('open');
-				console.log('ajax error');
-			});
 
+			var api_url = '../../api/pat_distribution/'+current
+
+
+			var jqxhr = $.ajax({
+				url: api_url,
+				type: "GET",
+				statusCode: {
+					200: function (data) {
+						console.log('[200] get',data.length,'emotions in "'+decodeURIComponent(current)+'"' );
+
+						draw(data);
+						$('#chart-container').removeClass('hide');
+						$('.mask').removeClass('hide');
+					},
+					204: function (resp) {
+						console.log('[204] no data for "'+decodeURIComponent(current)+'"');
+
+						obj.addClass('lock').removeClass('open');
+					},
+					500: function (resp) {
+						console.log('[500] error to get info of "',decodeURIComponent(current)+'"');
+					}
+				}
+			});
 		}
 
 	});
