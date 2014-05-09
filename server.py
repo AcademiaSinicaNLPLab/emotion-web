@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for
+import sys
 import fetch_mongo
 app = Flask(__name__)
 
@@ -20,8 +21,11 @@ def plot():
 	return render_template( 'chart.html' )
 
 @app.route('/api/pat_distribution/<pat>')
+@app.route('/api/pat_distribution/<pat>/')
 def showplot(pat):
-	return fetch_mongo.get_pat_dist(pat)
+	print >> sys.stderr, '[info] Get pattern "'+pat+'"'
+	pat_data = fetch_mongo.get_pat_dist(pat)
+	return pat_data
 
 @app.route('/api/pat_sentences/<pat>')
 

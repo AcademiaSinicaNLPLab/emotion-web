@@ -12,7 +12,7 @@ co_emotions = db['emotions']
 co_docmap = db['docs']
 co_sents = db['sents']
 co_pats = db['pats']
-co_lexicon = db['lexicon']
+co_lexicon = db['lexicon.nested']
 co_docs = db['docs']
 
 emo_list = None
@@ -53,33 +53,24 @@ def get_pat_dist(pat, percent=True):
 	if not emo_list:
 		emo_list = get_emotion_list()
 
-	fetch = list(co_lexicon.find({'pattern': pat}))
+	mdoc = co_lexicon.find_one({'pattern': pat})
 
-	if len(fetch) > 0: 
+	return_data = []
 
-		D = dict([(x['emotion'],x['count']) for x in fetch])
+	if mdoc:
+		counts = mdoc['count']
+		print emo_list
+		print counts
 
-		C = {}
-		for x in emo_list:
-			if x in D:
-				C[x] = D[x]
-			else:
-				C[x] = 0.0
+		C = dict( [ (e, 0.0 if e not in counts else counts[e]) for e in emo_list] )
 
-		# print C
+		Sum = 1 if not percent else float( sum(C.values()) )
 
-		S = 1 if not percent else float(sum([x['count'] for x in fetch]))
+		return_data = [] if Sum == 0 else [ {'key':x, 'val':C[x]/Sum} for x in C]
 
-		if S == 0:
-			data = []
-		else:
-			data = [ {'key':x, 'val':C[x]/S} for x in C]
+		return_data.sort(key=lambda x:x['val'], reverse=True)
 
-		data.sort(key=lambda x:x['val'], reverse=True)
-	else:
-		data = []
-
-	return json.dumps(data)
+	return json.dumps(return_data)
 
 
 def get_sents_by_pat(pat, emo):

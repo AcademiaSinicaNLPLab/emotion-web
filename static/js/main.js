@@ -86,6 +86,7 @@ function events(){
 					$('.mask').removeClass('hide');		    		
 		    	}
 			}).error(function(){
+				obj.addClass('lock').removeClass('open');
 				console.log('ajax error');
 			});
 
