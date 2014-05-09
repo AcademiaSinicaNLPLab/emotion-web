@@ -51,7 +51,7 @@ def get_pat_dist(pat, percent=True):
 	global emo_list
 
 	if not emo_list:
-		emo_list = emotion_list()
+		emo_list = get_emotion_list()
 
 	fetch = list(co_lexicon.find({'pattern': pat}))
 

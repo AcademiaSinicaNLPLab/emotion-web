@@ -74,7 +74,7 @@ function events(){
 
 			var obj = $(this);
 			
-			$.getJSON('../../api/pat/'+current, function(data){
+			$.getJSON('../../api/pat_distribution/'+current, function(data){
 		    	if(data.length == 0)
 		    	{
 		    		obj.addClass('lock').removeClass('open');
@@ -86,6 +86,7 @@ function events(){
 					$('.mask').removeClass('hide');		    		
 		    	}
 			}).error(function(){
+				obj.addClass('lock').removeClass('open');
 				console.log('ajax error');
 			});
 
