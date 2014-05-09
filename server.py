@@ -28,9 +28,9 @@ def showplot(pat):
 	print >> sys.stderr, '[info] data length:', len(pat_data)
 
 	if type(pat_data) == list and len(pat_data) == 0:
-		return Response(status=204, mimetype="application/json")
+		return Response(status=204)
 	elif type(pat_data) == list and len(pat_data) > 0:
-		return jsonify(**pat_data)
+		return Response(json.dumps(pat_data), mimetype="application/json", status=200)
 	else:
 		return Response(status=500)
 
