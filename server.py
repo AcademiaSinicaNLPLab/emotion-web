@@ -21,6 +21,7 @@ def plot():
 	return render_template( 'chart.html' )
 
 @app.route('/api/pat_distribution/<pat>')
+@app.route('/api/pat_distribution/<pat>/')
 def showplot(pat):
 	print >> sys.stderr, '[info] Get pattern "'+pat+'"'
 	pat_data = fetch_mongo.get_pat_dist(pat)
