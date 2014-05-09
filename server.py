@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def list_emotions():
-	return render_template( 'emotions.html', emotions=fetch_mongo.get_emotion_list() )
+	emotions = fetch_mongo.get_emotion_list()
+	return render_template( 'emotions.html', emotions=emotions )
 
 @app.route("/<emotion>/")
 def list_docIDs(emotion):
@@ -13,7 +14,9 @@ def list_docIDs(emotion):
 
 @app.route('/<emotion>/<int:ldocID>/')
 def list_sents(emotion, ldocID):
-	return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, sp_pairs=fetch_mongo.get_sp_pairs(emotion, ldocID), docscore_categories=fetch_mongo.get_docscore_categories() )
+	sp_pairs = fetch_mongo.get_sp_pairs(emotion, ldocID)
+	docscore_categories = fetch_mongo.get_docscore_categories()
+	return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, sp_pairs=sp_pairs, docscore_categories=docscore_categories )
 
 @app.route('/chart')
 @app.route('/chart/')
