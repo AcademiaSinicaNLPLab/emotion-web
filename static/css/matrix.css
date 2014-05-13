@@ -1,0 +1,74 @@
+@font-face {
+	font-family: "Proxima Nova Light";
+	src: url('fonts/proxima_nova_light_0.woff');
+}
+
+.infobox
+{
+
+}
+	.infobox .label-wrap
+	{
+		min-width: 24px;
+		height: 24px;
+	}
+
+		.infobox .label-wrap span
+		{
+
+		}
+
+		.infobox .label-wrap .label-type
+		{
+
+		}
+
+		.infobox .label-wrap .label-name
+		{
+
+		}
+
+
+.matrix 
+{
+	font-size: 12px;
+	font-family: "Proxima Nova Light";
+}
+	.matrix tr td
+	{
+		width: 24px;
+		text-align: center;
+		font-size: 1.2em;
+		line-height: 1.8em;
+	}
+	.matrix tr td.label
+	{
+		padding: 0px 4px;
+		white-space:nowrap;
+	}
+	td.highlight
+	{
+		background: #fe991e;
+	}
+
+
+	.matrix tr.first-row td
+	{
+		border-bottom: 1px solid gray;
+		font-size: 1.3em;
+		line-height: 2.5em;
+	}
+	.matrix tr td.first-col
+	{
+		border-right: 1px solid gray;
+		font-size: 1.3em;
+		width: 2.5em;
+		/*width: 128px;*/
+	}
+
+	.matrix tr td.hit
+	{
+		background: #10961d;
+	}
+
+

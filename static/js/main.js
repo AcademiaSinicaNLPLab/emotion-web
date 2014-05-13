@@ -1,6 +1,9 @@
 $(document).ready(function(){
-	events();
-	autoStyling();
+	
+	chart_events();
+	chart_autoStyling();
+
+	matrix_events();
 });
 
 var current = '';
@@ -10,7 +13,7 @@ var data = [];
 var colors = ['#428bca', '#5cb85c', '#f0ad4e'];
 var colorsDark = ['#3276b1', '#47a347', '#ed9c28'];
 
-function autoStyling() {
+function chart_autoStyling() {
 	var len = $('.info-block').length;
 
 	// max z-index
@@ -36,21 +39,8 @@ function autoStyling() {
 	});
 }
 
-function events(){
+function chart_events(){
 
-	/*
-	$('.emotion-button').click(function(){
-		location.href = "../" + $(this).text();
-	});
-	
-	$('.docID-button').click(function(){
-		location.href = $(this).text();
-	});
-
-	$('.sent').hover(function(){
-		$(this).siblings('.pat').toggleClass('hide');
-	});	
-	*/
 	var prev = '';
 	var current = '';
 
@@ -101,6 +91,7 @@ function events(){
 		}
 
 	});
+
 	$('.close').click(function(){
 		$(this).parents('.container').addClass('hide');
 		$('.mask').addClass('hide');
@@ -119,3 +110,10 @@ function events(){
 	});
 }
 
+function matrix_events()
+{
+	bind_init_events();
+	bind_label_hover_event();
+	bind_dev_events();
+
+}
