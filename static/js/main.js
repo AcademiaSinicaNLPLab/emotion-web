@@ -45,36 +45,45 @@ function chart_events(){
 	var current = '';
 
 	$('.pat').click(function(){
+
+		// if the pattern is already locked (in gray color)
+		// just skip all operation
+		if( $(this).hasClass('lock') ){
+			return false;
+		}
+
 		var pattern = $(this).text();
 
 		$('#chart-container').find('.pattern').text(pattern);
 
 		current = encodeURIComponent( pattern.toLowerCase() );
 
-		// click the same pattern, just show
+		// click the same pattern
+		// hide mask, show chart
 		if( current == prev )
 		{
 			$('#chart-container').removeClass('hide');
 			$('.mask').removeClass('hide');
 		}
-		// click different patterns, send ajax req
+		// click different patterns, send ajax request
 		else
 		{
 			prev = current;
 
 			var obj = $(this);
 
-			var api_url = '../../api/pat_distribution/'+current
+			var api_url = '../../api/pat_distribution/'+current; // change to automatically bind the url address? like "os.path.join" in python
 
-
-			var jqxhr = $.ajax({
+			$.ajax({
 				url: api_url,
 				type: "GET",
 				statusCode: {
 					200: function (data) {
 						console.log('[200] get',data.length,'emotions in "'+decodeURIComponent(current)+'"' );
 
+						// defined in chart.js
 						draw(data);
+
 						$('#chart-container').removeClass('hide');
 						$('.mask').removeClass('hide');
 					},
