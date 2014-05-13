@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, make_response, Response, jsonify
-import sys, json
+from flask import Flask, render_template, url_for, make_response, Response, jsonify, request
+import sys, json, os
 import fetch_mongo
+import confusion_matrix as matrix
 app = Flask(__name__)
 
 @app.route("/")
@@ -19,6 +20,36 @@ def list_sents(emotion, ldocID):
 @app.route('/chart/')
 def plot():
 	return render_template( 'chart.html' )
+
+
+answer_mapping = {
+	'0': '0.out'
+}
+gold_mapping = {
+	'default': 'gold.txt'
+}
+data_root = 'data'
+
+@app.route('/matrix')
+@app.route('/matrix/', methods=['GET'])
+def show_matrix():
+	if request.method == 'GET':
+
+		answer_type = request.args['answer']
+		gold_type = request.args['gold']
+
+		if answer_type not in answer_mapping or gold_type not in gold_mapping:
+			data = None
+		else:
+			matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
+			matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
+
+			matrix.load_data()
+			data = matrix.generate()
+
+	return render_template( 'matrix.html', matrix=data, order=list( enumerate(sorted(data.keys())) ) )
+
+## -------------------- APIs -------------------- ##
 
 @app.route('/api/pat_distribution/<pat>')
 @app.route('/api/pat_distribution/<pat>/')
@@ -44,6 +75,17 @@ def showsents(pat, emo=None):
 @app.route('/api/docscore/<udocID>/<docscore_category>')
 def showdocscore():
 	return fetch_mongo.get_docscores(udocID, docscore_category)
+
+
+@app.route('/api/matrix/')
+def get_matrix():
+	matrix.path_to_answer = 'data/0.out'
+	matrix.path_to_gold = 'data/gold.txt'
+
+	matrix.load_data()
+	M = matrix.generate()
+
+	return Response(json.dumps(M), mimetype="application/json", status=200)
 
 if __name__ == "__main__":
 	import getopt, sys
