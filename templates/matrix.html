@@ -1,0 +1,44 @@
+{% extends "_head.html" %}
+
+{% block content %}
+<button id="hitme"> hit me </button>
+
+<div class="infobox hide">
+	<div id="predict-label-wrap" class="label-wrap">
+		<span class="label-type"></span>
+		<span class="label-name"></span>
+	</div>
+	<div id="gold-label-wrap" class="label-wrap">
+		<span class="label-type"></span>
+		<span class="label-name"></span>
+	</div>
+</div>
+
+<div class="matrix-container">
+	<table class="matrix" cellpadding="0" cellspacing="0">
+
+		<tr class="first-row">
+			<td class="first-col"></td>
+			{% for j, predict in order %}
+			<td class="predict-label label" emotion="{{ predict }}" predictidx="{{ j }}">{{ j+1 }}</td>
+			{% endfor %}
+		</tr>
+		
+		{% for i, gold in order %}
+		<tr>
+			<td class="first-col gold-label label" emotion="{{ gold }}" goldidx="{{ i }}"> {{ i+1 }} </td>
+
+			{% for j, answer in order %}
+
+				{% if gold == answer %}
+					<td class="count hit" goldidx="{{ i }}" predictidx="{{ j }}"> {{ matrix[gold][answer] }} </td>
+				{% else %}
+					<td class="count" goldidx="{{ i }}" predictidx="{{ j }}"> {{ matrix[gold][answer] }} </td>
+				{% endif %}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
+{% endblock %}
