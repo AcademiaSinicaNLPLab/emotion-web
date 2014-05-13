@@ -4,16 +4,21 @@ import fetch_mongo
 import confusion_matrix as matrix
 app = Flask(__name__)
 
-@app.route("/")
+@app.route('/')
+def hello():
+	return render_template( 'index.html' )
+
+@app.route("/browse")
+@app.route("/browse/")
 def list_emotions():
 	emotions = fetch_mongo.get_emotion_list()
 	return render_template( 'emotions.html', emotions=emotions )
 
-@app.route("/<emotion>/")
+@app.route("/browse/<emotion>/")
 def list_docIDs(emotion):
 	return render_template( 'docids.html', emotion=emotion )
 
-@app.route('/<emotion>/<int:ldocID>/')
+@app.route('/browse/<emotion>/<int:ldocID>/')
 def list_sents(emotion, ldocID):
 	sp_pairs = fetch_mongo.get_sp_pairs(emotion, ldocID)
 	docscore_categories = fetch_mongo.get_docscore_categories()
@@ -34,21 +39,25 @@ gold_mapping = {
 data_root = 'data'
 
 @app.route('/matrix')
+@app.route('/matrix/')
 @app.route('/matrix/', methods=['GET'])
 def show_matrix():
 	if request.method == 'GET':
 
-		answer_type = request.args['answer']
-		gold_type = request.args['gold']
-
-		if answer_type not in answer_mapping or gold_type not in gold_mapping:
-			data = None
+		if not request.args:
+			data = {}
 		else:
-			matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
-			matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
+			answer_type = request.args['answer']
+			gold_type = request.args['gold']
 
-			matrix.load_data()
-			data = matrix.generate()
+			if answer_type not in answer_mapping or gold_type not in gold_mapping:
+				data = None
+			else:
+				matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
+				matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
+
+				matrix.load_data()
+				data = matrix.generate()
 
 	return render_template( 'matrix.html', matrix=data, order=list( enumerate(sorted(data.keys())) ) )
 

@@ -1,0 +1,15 @@
+{% extends "_head.html" %}
+
+{% block content %}
+<div class="content-wrap">
+	<div class="function-nav-blocks">
+		<a href="{{ url_for('list_emotions') }}">
+			<div class="function-nav-block" id="browse-block">Browse</div>
+		</a>
+		<a href="{{ url_for('show_matrix') }}?answer=0&amp;gold=default">
+			<div class="function-nav-block" id="matrix-block">Matrix</div>
+		</a>
+		
+	</div>
+</div>
+{% endblock %}
