@@ -31,7 +31,7 @@ def plot():
 
 
 answer_mapping = {
-	'0': '0.out'
+	'default': '0.out'
 }
 gold_mapping = {
 	'default': 'gold.txt'
@@ -40,24 +40,22 @@ data_root = 'data'
 
 @app.route('/matrix')
 @app.route('/matrix/')
-@app.route('/matrix/', methods=['GET'])
-def show_matrix():
-	if request.method == 'GET':
+def show_matrix(answer='default', gold='default'):
 
-		if not request.args:
+	if not request.args:
+		data = {}
+	else:
+		answer_type = request.args['answer']
+		gold_type = request.args['gold']
+
+		if answer_type not in answer_mapping or gold_type not in gold_mapping:
 			data = {}
 		else:
-			answer_type = request.args['answer']
-			gold_type = request.args['gold']
+			matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
+			matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
 
-			if answer_type not in answer_mapping or gold_type not in gold_mapping:
-				data = None
-			else:
-				matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
-				matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
-
-				matrix.load_data()
-				data = matrix.generate()
+			matrix.load_data()
+			data = matrix.generate()
 
 	return render_template( 'matrix.html', matrix=data, order=list( enumerate(sorted(data.keys())) ) )
 

@@ -1,7 +1,7 @@
 {% extends "_head.html" %}
 
 {% block content %}
-<!-- <button id="hitme"> hit me </button> -->
+
 
 <div class="infobox hide">
 	<div id="predict-label-wrap" class="label-wrap">
@@ -14,7 +14,12 @@
 	</div>
 </div>
 
+<a id="load-default-wrap" href="{{ url_for('show_matrix', answer='default', gold='default') }}">
+	<div id="load-default"> load default </div>
+</a>
+
 <div class="matrix-container">
+	{% if matrix %}
 	<table class="matrix" cellpadding="0" cellspacing="0">
 
 		<tr class="first-row">
@@ -39,6 +44,7 @@
 		</tr>
 		{% endfor %}
 	</table>
+	{% endif %}
 </div>
 
 {% endblock %}

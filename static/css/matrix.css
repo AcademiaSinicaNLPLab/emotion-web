@@ -23,50 +23,89 @@
 
 		}
 
-
-.matrix 
+#load-default-wrap
 {
-	font-size: 10px;
-	font-family: "Proxima Nova Light";
+
 }
-	.matrix tr td
+	#load-default 
 	{
-		width: 24px;
+		margin-top: 12px;
+		margin-left: 12px;
+
+
+		width: 160px;
+		height: 32px;
+
+		line-height: 32px;
 		text-align: center;
-		font-size: 1.3em;
-		line-height: 1.8em;
-		color: #444;
-	}
-	.matrix tr td.label
-	{
-		padding: 0px 4px;
-		white-space:nowrap;
-	}
-	.matrix tr td.highlight
-	{
-		background: #fe991e!important;
 
-		color: black;
-	}
+		font-family: "Proxima Nova Light";
+		font-size: 18px;
 
+		color: white;
 
-	.matrix tr.first-row td
-	{
-		border-bottom: 1px solid #c45a14;
-		font-size: 1.4em;
-		line-height: 2.5em;
+		background: #dc3911;
+
+		border-top: 1px solid #b31f0f;
+		border-left: 1px solid #b31f0f;
+
+		border-bottom: 3px solid #9d1b0d;
+		border-right: 2px solid #9d1b0d;
+
+		border-radius: 4px;
 	}
-	.matrix tr td.first-col
+	#load-default:hover
 	{
-		border-right: 1px solid #c45a14;
-		font-size: 1.4em;
-		width: 2.5em;
+		background: #c72211;
 	}
 
-	.matrix tr td.hit
+.matrix-container
+{
+	margin-top: 32px;
+}
+	.matrix 
 	{
-		/*background: #10961d;*/
-		background: rgba(016, 150, 029, 0.7);
+		font-size: 10px;
+		font-family: "Proxima Nova Light";
 	}
+		.matrix tr td
+		{
+			width: 24px;
+			text-align: center;
+			font-size: 1.3em;
+			line-height: 1.8em;
+			color: #444;
+		}
+		.matrix tr td.label
+		{
+			padding: 0px 4px;
+			white-space:nowrap;
+		}
+		.matrix tr td.highlight
+		{
+			background: #fe991e!important;
+
+			color: black;
+		}
+
+
+		.matrix tr.first-row td
+		{
+			border-bottom: 1px solid #c45a14;
+			font-size: 1.4em;
+			line-height: 2.5em;
+		}
+		.matrix tr td.first-col
+		{
+			border-right: 1px solid #c45a14;
+			font-size: 1.4em;
+			width: 2.5em;
+		}
+
+		.matrix tr td.hit
+		{
+			/*background: #10961d;*/
+			background: rgba(016, 150, 029, 0.7);
+		}
 
 

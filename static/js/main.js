@@ -72,7 +72,7 @@ function chart_events(){
 
 			var obj = $(this);
 
-			var api_url = '../../api/pat_distribution/'+current; // change to automatically bind the url address? like "os.path.join" in python
+			var api_url = '../../../api/pat_distribution/'+current; // change to automatically bind the url address? like "os.path.join" in python
 
 			$.ajax({
 				url: api_url,
