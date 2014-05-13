@@ -3,7 +3,7 @@
 # import sys, pymongo, color
 
 from collections import defaultdict, Counter
-import json, sys, os
+import json, sys
 
 ### input
 # file 1: gold		e.g., gold.txt
@@ -12,6 +12,9 @@ import json, sys, os
 ### output
 # matrix (std.out or file)
 
+# data_folder_name = 'feelit-data'
+# data_folder_root = os.path.join(os.getcwd(), data_folder_name)
+
 path_to_answer = '../tmp/0.out'
 path_to_gold = '../tmp/gold.txt'
 
@@ -19,10 +22,14 @@ answers = []
 golds = []
 labels = {}
 
-print >> sys.stderr, '[path] [confusion_matrix.py]', os.getcwd()
+# print >> sys.stderr, '[path] [confusion_matrix.py] current working directory:', os.getcwd()
+
 
 def load_data():
 	global answers, golds, labels
+
+	# print >> sys.stderr, '[path] [confusion_matrix.py] current working directory:', os.getcwd()
+	# print >> sys.stderr, '[path] [confusion_matrix.py] data root:', data_folder_root
 
 	print >> sys.stderr, '[path] [confusion_matrix.py] path_to_answer:',path_to_answer
 	print >> sys.stderr, '[path] [confusion_matrix.py] path_to_gold:',path_to_gold

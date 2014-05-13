@@ -36,7 +36,9 @@ answer_mapping = {
 gold_mapping = {
 	'default': 'gold.txt'
 }
-data_root = 'data'
+
+data_folder_name = 'feelit-data'
+data_folder_root = os.path.join(os.getcwd(), data_folder_name)
 
 @app.route('/matrix')
 @app.route('/matrix/')
@@ -52,10 +54,10 @@ def show_matrix(answer='default', gold='default'):
 			data = {}
 		else:
 
-			matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
+			matrix.path_to_answer = os.path.join(data_folder_root, answer_mapping[answer_type])
 			print >> sys.stderr, '[path] [server.py] matrix.path_to_answer:',matrix.path_to_answer
 
-			matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
+			matrix.path_to_gold = os.path.join(data_folder_root, gold_mapping[gold_type])
 			print >> sys.stderr, '[path] [server.py] matrix.path_to_gold:',matrix.path_to_gold
 
 			print >> sys.stderr, '[call] [server.py] matrix.load_data()'
