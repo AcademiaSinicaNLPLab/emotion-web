@@ -3,7 +3,7 @@
 # import sys, pymongo, color
 
 from collections import defaultdict, Counter
-import json, sys
+import json, sys, os
 
 ### input
 # file 1: gold		e.g., gold.txt
@@ -18,6 +18,8 @@ path_to_gold = '../tmp/gold.txt'
 answers = []
 golds = []
 labels = {}
+
+print >> sys.stderr, '[path] [confusion_matrix.py]', os.getcwd()
 
 def load_data():
 	global answers, golds, labels
