@@ -1,39 +1,118 @@
-.function-nav-blocks
+body.index
 {
 	width: 100%;
+	height: 100%;
+	clear:both;
+	margin: 0;
+	padding: 0;
+
+	background: url(../img/blur.jpg) repeat 0 0;
+	/*background: white;*/
+}
+
+.banner-wrap
+{
+	width: 512px;
+	height: 192px;
+
+	line-height: 192px;
+	text-align: center;
+
+	margin: 0 auto;
+
+	margin-top: 72px;
+
+	font-family: "Proxima Nova";
+	font-size: 144px;
+
+	color: white;
+
+	text-shadow: 2px 2px #608b6c;
+
+	/*color: rgba(209, 209, 209, 0.8);*/
+	/*color: rgb(220, 057, 017);*/
+	/*text-shadow: 1px 4px 6px white, 0 0 0 black, 1px 4px 6px white;*/
+	/*background: blue;*/
+}
+
+::-moz-selection { background: #dc3911; color: #fff; text-shadow: none; }
+::selection { background: #dc3911; color: #fff; text-shadow: none; }
+
+
+.function-nav-blocks
+{
+	width: 50%;
 	height: 320px;
 	/*background: red;*/
-	text-align: center;
-	margin-top: 128px;
+	
+	
+	margin: 0 auto;
+	margin-top: 64px;
+
+
 }
-	.function-nav-blocks .function-nav-block
+	.function-nav-blocks
 	{
-		width: 160px;
-		height: 160px;
-		line-height: 160px;
-		
-		display: inline-block;
-		color: white;
-		
-		margin: 15px;
-		font-family: "Proxima Nova Light";
-		font-size: 32px;
+		/*display: inline-block;*/
+		text-align: center;
 
-		opacity: 0.85;
 	}
+		.function-nav-blocks .function-nav-block
+		{
+			width: 160px;
+			height: 160px;
+			/*line-height: 160px;*/
+			text-align: center;
+			display:inline-block;
+			
+
+			/*display: inline-block;*/
+			color: white;
+			
+			margin: 20px;
+			font-family: "Proxima Nova Thin";
+			font-size: 24px;
+
+			text-shadow: 1px 1px #2040a3;
+
+			opacity: 0.85;
 
 
-	.function-nav-blocks #browse-block
-	{
-		background: #3366cc;
-	}
-	.function-nav-blocks #matrix-block
-	{
-		background: #10961d;
-	}
+		}
+			.function-nav-block span
+			{
+				display: block;
+				position: relative;
 
-	.function-nav-block:hover
-	{
-		opacity: 1.0;
-		
-	}
+				top: 42px;
+			}
+
+
+		.function-nav-blocks #browse-block
+		{
+			/* blue */
+			/*background: #3366cc;*/ 
+			/*box-shadow: 2px 2px 5px 0px #2040a3;*/
+
+			/* red */
+			background: #dc3911;
+			box-shadow: 2px 2px 5px 0px #a41c0e;
+			
+		}
+		.function-nav-blocks #matrix-block
+		{
+			
+			/* green */
+			background: #10961d;
+			box-shadow: 2px 2px 5px 0px #0d520e;
+
+			/* orage */
+			/*background: #fe991e;*/
+			/*box-shadow: 2px 2px 5px 0px #c86b14;*/
+		}
+
+		.function-nav-block:hover
+		{
+			opacity: 1.0;
+			
+		}
