@@ -51,10 +51,17 @@ def show_matrix(answer='default', gold='default'):
 		if answer_type not in answer_mapping or gold_type not in gold_mapping:
 			data = {}
 		else:
-			matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
-			matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
 
+			matrix.path_to_answer = os.path.join(data_root, answer_mapping[answer_type])
+			print >> sys.stderr, '[path] [server.py] matrix.path_to_answer:',matrix.path_to_answer
+
+			matrix.path_to_gold = os.path.join(data_root, gold_mapping[gold_type])
+			print >> sys.stderr, '[path] [server.py] matrix.path_to_gold:',matrix.path_to_gold
+
+			print >> sys.stderr, '[call] [server.py] matrix.load_data()'
 			matrix.load_data()
+
+			print >> sys.stderr, '[call] [server.py] matrix.generate()'
 			data = matrix.generate()
 
 	return render_template( 'matrix.html', matrix=data, order=list( enumerate(sorted(data.keys())) ) )

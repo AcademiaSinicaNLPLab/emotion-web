@@ -3,7 +3,7 @@
 # import sys, pymongo, color
 
 from collections import defaultdict, Counter
-import json
+import json, sys
 
 ### input
 # file 1: gold		e.g., gold.txt
@@ -21,6 +21,10 @@ labels = {}
 
 def load_data():
 	global answers, golds, labels
+
+	print >> sys.stderr, '[path] [confusion_matrix.py] path_to_answer:',path_to_answer
+	print >> sys.stderr, '[path] [confusion_matrix.py] path_to_gold:',path_to_gold
+
 	answers = [line.strip().split('\t')[0] for line in open(path_to_answer)]
 	golds = [line.strip().split('\t')[0] for line in open(path_to_gold)]
 	labels = { line.strip().split('\t')[0]:line.strip().split('\t')[-1] for line in open(path_to_gold) }
@@ -29,15 +33,19 @@ def generate():
 	global answers, golds, labels
 	matrix = defaultdict(Counter)
 
+	print >> sys.stderr, '[info] [confusion_matrix.py] generate() -> #init'
 	# init
 	for l1 in labels.values():
 		for l2 in labels.values():
 			matrix[l1][l2] = 0
 
+	print >> sys.stderr, '[info] [confusion_matrix.py] generate() -> #generating'
 	for gold ,answer in zip(golds, answers):
 		gold_label = labels[gold]
 		answer_label = labels[answer]
 		matrix[gold_label][answer_label] += 1
+
+	print >> sys.stderr, '[info] [confusion_matrix.py] get matrix with size:', len(matrix), 'x', len(matrix.values())
 
 	return matrix
 
