@@ -15,9 +15,26 @@
 	<title>Feelit</title>
 
 </head>
-<body>
-	{% block content %}
-	{% endblock %}
+<body class="index">
+	<div>
+		<div class="banner-wrap">
+			Feelit
+		</div>
+		<div class="function-nav-blocks">
+			<a href="{{ url_for('list_emotions') }}">
+				<div class="function-nav-block" id="browse-block">
+					<span>Browse<br> &nbsp;</span>
+				</div>
+			</a>
+			<a href="{{ url_for('show_matrix') }}">
+				<div class="function-nav-block" id="matrix-block">
+					<span>Confusion Matrix</span>
+				</div>
+			</a>
+			
+		</div>
+	</div>
+
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/chart.js') }}"></script>

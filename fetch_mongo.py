@@ -59,8 +59,6 @@ def get_pat_dist(pat, percent=True):
 
 	if mdoc:
 		counts = mdoc['count']
-		print emo_list
-		print counts
 
 		C = dict( [ (e, 0.0 if e not in counts else counts[e]) for e in emo_list] )
 
@@ -70,7 +68,7 @@ def get_pat_dist(pat, percent=True):
 
 		return_data.sort(key=lambda x:x['val'], reverse=True)
 
-	return json.dumps(return_data)
+	return return_data
 
 
 def get_sents_by_pat(pat, emo):

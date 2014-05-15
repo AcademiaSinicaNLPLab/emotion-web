@@ -1,6 +1,9 @@
-ㄊ$(document).ready(function(){
-	events();
-	autoStyling();
+$(document).ready(function(){
+	
+	chart_events();
+	chart_autoStyling();
+
+	matrix_events();
 });
 
 var current = '';
@@ -10,7 +13,7 @@ var data = [];
 var colors = ['#428bca', '#5cb85c', '#f0ad4e'];
 var colorsDark = ['#3276b1', '#47a347', '#ed9c28'];
 
-function autoStyling() {
+function chart_autoStyling() {
 	var len = $('.info-block').length;
 
 	// max z-index
@@ -36,63 +39,68 @@ function autoStyling() {
 	});
 }
 
-function events(){
+function chart_events(){
 
-	/*
-	$('.emotion-button').click(function(){
-		location.href = "../" + $(this).text();
-	});
-	
-	$('.docID-button').click(function(){
-		location.href = $(this).text();
-	});
-
-	$('.sent').hover(function(){
-		$(this).siblings('.pat').toggleClass('hide');
-	});	
-	*/
 	var prev = '';
 	var current = '';
 
 	$('.pat').click(function(){
+
+		// if the pattern is already locked (in gray color)
+		// just skip all operation
+		if( $(this).hasClass('lock') ){
+			return false;
+		}
+
 		var pattern = $(this).text();
 
 		$('#chart-container').find('.pattern').text(pattern);
 
 		current = encodeURIComponent( pattern.toLowerCase() );
 
-		// click the same pattern, just show
+		// click the same pattern
+		// hide mask, show chart
 		if( current == prev )
 		{
 			$('#chart-container').removeClass('hide');
 			$('.mask').removeClass('hide');
 		}
-		// click different patterns, send ajax req
+		// click different patterns, send ajax request
 		else
 		{
 			prev = current;
 
 			var obj = $(this);
-			
-			$.getJSON('../../api/pat_distribution/'+current, function(data){
-		    	if(data.length == 0)
-		    	{
-		    		obj.addClass('lock').removeClass('open');
-		    		return false;
-		    	}
-		    	else {
-		    		draw(data);
-					$('#chart-container').removeClass('hide');
-					$('.mask').removeClass('hide');		    		
-		    	}
-			}).error(function(){
-				obj.addClass('lock').removeClass('open');
-				console.log('ajax error');
-			});
 
+			var api_url = '../../../api/pat_distribution/'+current; // change to automatically bind the url address? like "os.path.join" in python
+
+			$.ajax({
+				url: api_url,
+				type: "GET",
+				statusCode: {
+					200: function (data) {
+						console.log('[200] get',data.length,'emotions in "'+decodeURIComponent(current)+'"' );
+
+						// defined in chart.js
+						draw(data);
+
+						$('#chart-container').removeClass('hide');
+						$('.mask').removeClass('hide');
+					},
+					204: function (resp) {
+						console.log('[204] no data for "'+decodeURIComponent(current)+'"');
+
+						obj.addClass('lock').removeClass('open');
+					},
+					500: function (resp) {
+						console.log('[500] error to get info of "',decodeURIComponent(current)+'"');
+					}
+				}
+			});
 		}
 
 	});
+
 	$('.close').click(function(){
 		$(this).parents('.container').addClass('hide');
 		$('.mask').addClass('hide');
@@ -112,3 +120,10 @@ function events(){
 
 }
 
+function matrix_events()
+{
+	bind_init_events();
+	bind_label_hover_event();
+	bind_dev_events();
+
+}
