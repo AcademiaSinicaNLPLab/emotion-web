@@ -117,6 +117,7 @@ function chart_events(){
 			}
 		}
 	});
+
 }
 
 function matrix_events()

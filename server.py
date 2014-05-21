@@ -90,8 +90,7 @@ def showplot(pat):
 		return Response(status=500)
 
 @app.route('/api/pat_sentences/<pat>')
-@app.route('/api/pat_sentences/<pat>/')
-@app.route('/api/pat_sentences/<pat>/<emo>')
+
 @app.route('/api/pat_sentences/<pat>/<emo>/')
 def showsents(pat, emo=None):
 	return fetch_mongo.get_sents_by_pat(pat, emo)
