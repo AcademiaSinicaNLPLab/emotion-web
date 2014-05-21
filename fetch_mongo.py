@@ -14,6 +14,7 @@ co_sents = db['sents']
 co_pats = db['pats']
 co_lexicon = db['lexicon.nested']
 co_docs = db['docs']
+co_feature_setting = db['features.settings']
 
 emo_list = None
 
@@ -97,6 +98,13 @@ def get_docscores(udocID, docscore_category):
 	scores = db[docscore_category].findOne({'udocID': udocID})['scores']
 	data = [scores['emotion'] for emotion in sorted(scores, key=lambda x:scores[x], reverse=True)]
 	return json.dumps(data)
+
+def get_all_settings():
+	FS = defaultdict(list)
+	for mdoc in co_feature_setting.find():
+		mdoc['_id'] = str(mdoc['_id'])
+		FS[mdoc['feature_name']].append( mdoc )
+	return dict(FS)
 
 if __name__ == '__main__':
 	

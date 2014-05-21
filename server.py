@@ -100,6 +100,13 @@ def showdocscore():
 	return fetch_mongo.get_docscores(udocID, docscore_category)
 
 
+@app.route('/api/settings')
+@app.route('/api/settings/')
+def show_settings():
+	settings = fetch_mongo.get_all_settings()
+	return json.dumps(settings)
+	# return Response(json.dumps(settings), mimetype="application/json", status=200)
+
 # @app.route('/api/matrix/')
 # def get_matrix():
 # 	matrix.path_to_answer = 'data/0.out'
