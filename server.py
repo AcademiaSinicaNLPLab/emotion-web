@@ -4,6 +4,9 @@ import fetch_mongo
 import confusion_matrix as matrix
 app = Flask(__name__)
 
+cache_folder_name = 'feelit-data'
+cache_folder_root = os.path.join(os.getcwd(), cache_folder_name)
+
 @app.route('/')
 def hello():
 	return render_template( 'index.html' )
@@ -30,41 +33,43 @@ def plot():
 	return render_template( 'chart.html' )
 
 
-answer_mapping = {
-	'default': '0.out'
-}
-gold_mapping = {
-	'default': 'gold.txt'
-}
-
-data_folder_name = 'feelit-data'
-data_folder_root = os.path.join(os.getcwd(), data_folder_name)
-
 @app.route('/matrix')
 @app.route('/matrix/')
-def show_matrix(answer='default', gold='default'):
+def show_matrix(setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'):
 
 	if not request.args:
 		data = {}
-	else:
-		answer_type = request.args['answer']
-		gold_type = request.args['gold']
+		## list availabel matrix
+		# matrix.list_all()
 
-		if answer_type not in answer_mapping or gold_type not in gold_mapping:
-			data = {}
+	elif request.args['setting_id'] and request.args['svm_param']:
+		cache_fn   = '.'.join([setting_id, svm_param, 'json'])
+		cache_path = os.path.join(cache_folder_root, cache_fn)
+
+		## found in cache
+		if os.path.exists(cache_path):
+			data = json.load(open(cache_path, 'r'))
+			print >> sys.stderr, '[cache] load', cache_fn
+		## cannot find in cache
 		else:
-
-			matrix.path_to_answer = os.path.join(data_folder_root, answer_mapping[answer_type])
-			print >> sys.stderr, '[path] [server.py] matrix.path_to_answer:',matrix.path_to_answer
-
-			matrix.path_to_gold = os.path.join(data_folder_root, gold_mapping[gold_type])
-			print >> sys.stderr, '[path] [server.py] matrix.path_to_gold:',matrix.path_to_gold
+			matrix.setting_id = setting_id
+			matrix.svm_param = svm_param
+			## set default search path
+			# matrix.external_search = external_search
+			# matrix.internal_search = internal_search
 
 			print >> sys.stderr, '[call] [server.py] matrix.load_data()'
 			matrix.load_data()
 
 			print >> sys.stderr, '[call] [server.py] matrix.generate()'
 			data = matrix.generate()
+
+			if data:
+				## cache it
+				json.dump(data, open(cache_path, 'w'))
+				print >> sys.stderr, '[cache] dump', cache_fn
+	else:
+		data = {}
 
 	return render_template( 'matrix.html', matrix=data, order=list( enumerate(sorted(data.keys())) ) )
 
@@ -96,15 +101,15 @@ def showdocscore():
 	return fetch_mongo.get_docscores(udocID, docscore_category)
 
 
-@app.route('/api/matrix/')
-def get_matrix():
-	matrix.path_to_answer = 'data/0.out'
-	matrix.path_to_gold = 'data/gold.txt'
+# @app.route('/api/matrix/')
+# def get_matrix():
+# 	matrix.path_to_answer = 'data/0.out'
+# 	matrix.path_to_gold = 'data/gold.txt'
 
-	matrix.load_data()
-	M = matrix.generate()
+# 	matrix.load_data()
+# 	M = matrix.generate()
 
-	return Response(json.dumps(M), mimetype="application/json", status=200)
+# 	return Response(json.dumps(M), mimetype="application/json", status=200)
 
 if __name__ == "__main__":
 	import getopt, sys
