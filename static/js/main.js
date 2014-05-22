@@ -4,6 +4,8 @@ $(document).ready(function(){
 	chart_autoStyling();
 
 	matrix_events();
+
+	$('#tomatrix').click();
 });
 
 var current = '';
@@ -125,5 +127,5 @@ function matrix_events()
 	bind_init_events();
 	bind_label_hover_event();
 	bind_dev_events();
-
+	bind_filter_evnet();
 }

@@ -37,7 +37,14 @@ caching = True
 
 @app.route('/matrix')
 @app.route('/matrix/')
-def show_matrix(setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'):
+def show_matrix():
+
+	settings = fetch_mongo.get_all_settings()
+	# setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'
+	args = request.args
+
+	
+	
 
 	if not os.path.exists(cache_folder_root):
 		print >> sys.stderr, '[warning] cache desternation is not existed'
@@ -55,9 +62,8 @@ def show_matrix(setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'):
 		# matrix.list_all()
 
 	elif request.args['setting_id'] and request.args['svm_param']:
-	
 		if caching:
-			cache_fn   = '.'.join([setting_id, svm_param, 'json'])
+			cache_fn   = '.'.join([args['setting_id'], args['svm_param'], 'json'])
 			cache_path = os.path.join(cache_folder_root, cache_fn)
 
 		## found in cache
@@ -66,8 +72,8 @@ def show_matrix(setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'):
 			print >> sys.stderr, '[cache] load', cache_fn
 		## cannot find in cache
 		else:
-			matrix.setting_id = setting_id
-			matrix.svm_param = svm_param
+			matrix.setting_id = args['setting_id']
+			matrix.svm_param = args['svm_param']
 			## set default search path
 			# matrix.external_search = external_search
 			# matrix.internal_search = internal_search
@@ -84,8 +90,8 @@ def show_matrix(setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'):
 				print >> sys.stderr, '[cache] dump', cache_fn
 	else:
 		data = {}
-
-	return render_template( 'matrix.html', matrix=data, order=list( enumerate(sorted(data.keys())) ) )
+	# print settings
+	return render_template( 'matrix.html', matrix=data, settings=settings, args=args, order=list( enumerate(sorted(data.keys())) ) )
 
 ## -------------------- APIs -------------------- ##
 
@@ -114,15 +120,13 @@ def showdocscore():
 	return fetch_mongo.get_docscores(udocID, docscore_category)
 
 
-# @app.route('/api/matrix/')
-# def get_matrix():
-# 	matrix.path_to_answer = 'data/0.out'
-# 	matrix.path_to_gold = 'data/gold.txt'
+@app.route('/api/settings')
+@app.route('/api/settings/')
+def show_settings():
+	settings = fetch_mongo.get_all_settings()
+	return json.dumps(settings)
+	# return Response(json.dumps(settings), mimetype="application/json", status=200)
 
-# 	matrix.load_data()
-# 	M = matrix.generate()
-
-# 	return Response(json.dumps(M), mimetype="application/json", status=200)
 
 if __name__ == "__main__":
 	import getopt, sys

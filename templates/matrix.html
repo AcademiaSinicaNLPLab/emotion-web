@@ -3,22 +3,57 @@
 {% block content %}
 
 
-<div class="infobox hide">
-	<div id="predict-label-wrap" class="label-wrap">
-		<span class="label-type"></span>
-		<span class="label-name"></span>
+<button id="tomatrix" class="hide">matrix</button>
+
+<div class="settings">
+	{% for feature_name in settings %}
+	<div class="filter-wrap" filtertarget="{{ feature_name }}">
+		<div class="checkbox-wrap">
+			<div class="checkbox {{ 'checked' if feature_name != 'fusion' else ''}} "></div>
+		</div>
+		<div class="filter-label">{{ feature_name }}</div>
 	</div>
-	<div id="gold-label-wrap" class="label-wrap">
-		<span class="label-type"></span>
-		<span class="label-name"></span>
+	{% endfor %}
+
+	<div class="input-wrap">
+		<form action="." method="get">
+			<!-- <div class="row"> -->
+				<input id="setting_id-input" type="text" name="setting_id" value="{{ args['setting_id'] }}" />
+				<input id="svm_param-input" type="text" name="svm_param"  value="{{ args['svm_param'] }}" />
+				<input id="load" type="submit" value="load" />
+		</form>
+	</div>
+
+	<div class="filter-target-wrap">
+		{% for feature_name in settings %}
+		<div class="filter-target {{ 'hide' if feature_name == 'fusion' else ''}}" name="{{ feature_name }}">
+			<div class="feature-name">{{ feature_name }}</div>
+
+			{% for setting in settings[feature_name] %}
+			<!-- <hr> -->
+			<div class="setting-wrap {{ 'mathced' if setting['_id'] == args['setting_id'] else '' }}">
+				<div class="setting-id">{{ setting['_id'] }}</div>
+				<div class="setting">
+					{% for key in setting %}
+					{% if key != '_id' and key != 'feature_name' %}
+					<div>
+						<span class="key">{{ key }}</span>
+						<span class="value">{{ setting[key] }}</span>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>				
+			</div>
+			{% endfor %}
+		</div>
+		{% endfor %}
 	</div>
 </div>
 
-<a id="load-default-wrap" href="{{ url_for('show_matrix', setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1') }}">
-	<div id="load-default"> load default </div>
-</a>
 
 <div class="matrix-container">
+	<!-- <button id="totop">settings</button> -->
+	<div id="totop">top</div>
 	{% if matrix %}
 	<table class="matrix" cellpadding="0" cellspacing="0">
 
