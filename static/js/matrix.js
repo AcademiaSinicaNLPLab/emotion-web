@@ -124,6 +124,43 @@ function bind_label_hover_event ()
 	});
 }
 
+jQuery.fn.selectText = function(){
+   var doc = document;
+   var element = this[0];
+   console.log(this, element);
+   if (doc.body.createTextRange) {
+       var range = document.body.createTextRange();
+       range.moveToElementText(element);
+       range.select();
+   } else if (window.getSelection) {
+       var selection = window.getSelection();        
+       var range = document.createRange();
+       range.selectNodeContents(element);
+       selection.removeAllRanges();
+       selection.addRange(range);
+   }
+};
+
+function bind_filter_evnet()
+{
+	$('.filter-wrap').click(function(){
+		$(this).find('.checkbox').toggleClass('checked');
+
+
+
+		var target = $(this).attr('filtertarget');
+		$('.filter-target[name='+target+']').toggleClass('hide');
+	});
+
+	$('.setting-wrap').click(function(){
+		// $(this).selectText();
+		$('.setting-wrap').removeClass('selected');
+		$(this).addClass('selected');
+		$('#setting_id-input').val($.trim($(this).find('.setting-id').text()));
+	});
+}
+
+
 
 function show_gold_label(goldidx)
 {
@@ -137,6 +174,12 @@ function show_predict_label(predictidx)
 function bind_init_events()
 {
 	emotions = getEmotions();
+	$('#totop').click(function(){
+		$('body').scrollTop(0);
+	});
+	$('#tomatrix').click(function(){
+		$('body').scrollTop($('.matrix-container').offset().top);
+	});	
 }
 
 function bind_dev_events()
