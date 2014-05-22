@@ -36,10 +36,13 @@ def search_files():
 	global internal_search, external_search, setting_id, svm_param
 	# search .out and .gold.txt
 	## search internal
+
+	print >> sys.stderr, '[info] searching internal', internal_search
+
 	out_path = os.path.join(internal_search, '.'.join([setting_id, svm_param, 'out']))
 	gold_path = os.path.join(internal_search, '.'.join([setting_id, 'gold', 'txt']))
 
-
+	print >> sys.stderr, '[info] searching external', external_search
 
 	found_out = os.path.exists(out_path)
 	found_gold = os.path.exists(gold_path)
@@ -51,10 +54,6 @@ def search_files():
 		gold_path = os.path.join(external_search, '.'.join([setting_id, 'gold', 'txt']))
 		found_gold = os.path.exists(gold_path)
 	
-
-	print "out_path:",out_path
-	print "gold_path:",gold_path
-	print 
 
 	if found_out and found_gold:
 		return {'out': out_path, 'gold': gold_path}
