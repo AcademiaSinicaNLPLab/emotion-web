@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, make_response, Response, json
 import sys, json, os
 import fetch_mongo
 import confusion_matrix as matrix
+from pprint import pprint
 app = Flask(__name__)
 
 cache_folder_name = 'feelit-data'
@@ -81,12 +82,6 @@ def show_matrix():
 @app.route('/results/')
 def show_results():
 	R = fetch_mongo.get_all_results()
-	# print R.values()
-	R.sort(key=lambda x:x['feature_name'])
-
-	# heading = R.items()
-	# sorted(res[res.keys()[0]]['accuracy'].keys())
-	# avgs = { sid: sum(res[sid]['accuracy'].values())/float(len(res[sid]['accuracy'].values())) for sid in res }
 
 
 	return render_template( 'results.html', results=R, emotions=sorted(R[0]['accuracy'].keys()) )

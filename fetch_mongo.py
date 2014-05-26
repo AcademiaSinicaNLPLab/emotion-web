@@ -117,33 +117,28 @@ def get_all_settings():
 
 def get_all_results():
 
-	R = defaultdict(dict)
-
-
-
-	for mdoc in co_feature_setting.find():
-		
-		sid = str(mdoc['_id'])
-		R[sid]['sid'] = sid
-		R[sid]['feature_name'] = mdoc['feature_name']
-		R[sid]['detail'] = {x:mdoc[x] for x in mdoc if x not in ('_id', 'feature_name')}
+	# R = defaultdict(dict)
+	details = { str(mdoc['_id']):mdoc for mdoc in co_feature_setting.find() }
+	R = []
 
 	for mdoc in co_svm_eval.find():
-		pprint(mdoc)
-		# raw_input()
-		sid = str(mdoc['setting'])
-		R[sid]['accuracy'] = mdoc['accuracy']
-		R[sid]['param'] = mdoc['param']
-		R[sid]['avg_accuracy'] = mdoc['avg_accuracy']
+		rdoc = {
+			'sid': mdoc['setting'],
+			'param': mdoc['param'],
+			'avg_accuracy': mdoc['avg_accuracy'],
+			'accuracy': mdoc['accuracy'],
+			'feature_name':details[mdoc['setting']]['feature_name'],
+			'detail': details[mdoc['setting']]
+		}
+		R.append(rdoc)
 
-	# pprint(R.values())
-
-	return R.values()
+	return R
 
 
 if __name__ == '__main__':
 	
-	print get_pat_dist('i am pissed')
+	# print get_pat_dist('i am pissed')
+	print get_all_results()
 	# emotion = "crazy"
 	# ldocID = 0
 	# pairs = sent_pat_pairs(emotion, ldocID)
