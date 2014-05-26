@@ -41,9 +41,6 @@ def show_matrix():
 	# setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'
 	args = request.args
 
-	
-	
-
 	if not request.args:
 		data = {}
 		## list availabel matrix
@@ -79,6 +76,21 @@ def show_matrix():
 		data = {}
 	# print settings
 	return render_template( 'matrix.html', matrix=data, settings=settings, args=args, order=list( enumerate(sorted(data.keys())) ) )
+
+@app.route('/results')
+@app.route('/results/')
+def show_results():
+	R = fetch_mongo.get_all_results()
+	# print R.values()
+	R.sort(key=lambda x:x['feature_name'])
+
+	# heading = R.items()
+	# sorted(res[res.keys()[0]]['accuracy'].keys())
+	# avgs = { sid: sum(res[sid]['accuracy'].values())/float(len(res[sid]['accuracy'].values())) for sid in res }
+
+
+	return render_template( 'results.html', results=R, emotions=sorted(R[0]['accuracy'].keys()) )
+
 
 ## -------------------- APIs -------------------- ##
 

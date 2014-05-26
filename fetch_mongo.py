@@ -15,6 +15,7 @@ co_pats = db['pats']
 co_lexicon = db['lexicon.nested']
 co_docs = db['docs']
 co_feature_setting = db['features.settings']
+co_svm_eval = db['svm.eval']
 
 emo_list = None
 
@@ -105,6 +106,40 @@ def get_all_settings():
 		mdoc['_id'] = str(mdoc['_id'])
 		FS[mdoc['feature_name']].append( mdoc )
 	return dict(FS)
+
+# {
+# 	sid:,
+# 	feature_name:,
+# 	detail:,
+# 	accuracy:,
+# 	avg_accuracy:
+# }
+
+def get_all_results():
+
+	R = defaultdict(dict)
+
+
+
+	for mdoc in co_feature_setting.find():
+		
+		sid = str(mdoc['_id'])
+		R[sid]['sid'] = sid
+		R[sid]['feature_name'] = mdoc['feature_name']
+		R[sid]['detail'] = {x:mdoc[x] for x in mdoc if x not in ('_id', 'feature_name')}
+
+	for mdoc in co_svm_eval.find():
+		pprint(mdoc)
+		# raw_input()
+		sid = str(mdoc['setting'])
+		R[sid]['accuracy'] = mdoc['accuracy']
+		R[sid]['param'] = mdoc['param']
+		R[sid]['avg_accuracy'] = mdoc['avg_accuracy']
+
+	# pprint(R.values())
+
+	return R.values()
+
 
 if __name__ == '__main__':
 	

@@ -1,0 +1,65 @@
+{% extends "_head.html" %}
+
+{% block content %}
+
+<table class="results-wrap" cellpadding=0 cellspacing=0>
+
+	<tr>
+		<td> </td>
+		{% for res in results %}
+		<td class="feature_name heading">
+			<span>{{ res['feature_name'] }}</span>
+		</td>
+		{% endfor %}
+	</tr>
+
+	<tr>
+		<td> </td>
+		{% for res in results %}
+		<td class="sid hide heading">
+			<span>{{ res['sid'] }}</span>
+		</td>
+		{% endfor %}
+	</tr>
+
+	<tr>
+		<td> </td>
+		{% for res in results %}
+		<td class="param heading">
+			<span>{{ res['param'] }}</span>
+		</td>
+		{% endfor %}
+	</tr>
+
+	<tr class="details">
+		<td> </td>
+		
+		{% for res in results %}
+		<td class="detail">
+			{% for setting_name, setting_value in res['detail'].items() %}
+			<div class="setting">
+				<div>{{ setting_name }} : {{ setting_value }}</div>
+			</div>
+			{% endfor %}
+		</td>
+		{% endfor %}
+
+	</tr>
+	{% for e in emotions %}
+	<tr class="accuracy-wrap">
+		<td class="emotion">{{ e }}</td>
+		{% for res in results %}
+		<td class="accuracy">{{ res['accuracy'][e] }}</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+	<tr></tr>
+	<tr class="avg-wrap">
+		<td>avg</td>
+		{% for res in results %}
+		<td class="avg">{{ res['avg_accuracy']*100 }}%</td>
+		{% endfor %}
+	</tr>
+</table>
+
+{% endblock %}
