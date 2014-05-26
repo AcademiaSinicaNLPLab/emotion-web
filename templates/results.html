@@ -37,9 +37,11 @@
 		{% for res in results %}
 		<td class="detail">
 			{% for setting_name, setting_value in res['detail'].items() %}
+			{% if setting_name != '_id' %}
 			<div class="setting">
 				<div>{{ setting_name }} : {{ setting_value }}</div>
 			</div>
+			{% endif %}
 			{% endfor %}
 		</td>
 		{% endfor %}
