@@ -95,7 +95,7 @@ def show_matrix():
 @app.route('/results/')
 def show_results():
 	R = fetch_mongo.get_all_results()
-
+	
 
 	return render_template( 'results.html', results=R, emotions=sorted(R[0]['accuracy'].keys()) )
 

@@ -132,6 +132,8 @@ def get_all_results():
 		}
 		R.append(rdoc)
 
+	R.sort(key=lambda x:x['feature_name'], reverse=True)
+
 	return R
 
 
