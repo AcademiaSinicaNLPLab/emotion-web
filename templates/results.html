@@ -7,7 +7,7 @@
 	<tr>
 		<td> </td>
 		{% for res in results %}
-		<td class="feature_name heading">
+		<td class="feature_name heading col" type="{{ res['feature_name'] }}">
 			<span>{{ res['feature_name'] }}</span>
 		</td>
 		{% endfor %}
@@ -16,7 +16,7 @@
 	<tr>
 		<td> </td>
 		{% for res in results %}
-		<td class="sid hide heading">
+		<td class="sid hide heading col" sid="{{ res['sid'] }}">
 			<span>{{ res['sid'] }}</span>
 		</td>
 		{% endfor %}
@@ -25,7 +25,7 @@
 	<tr>
 		<td> </td>
 		{% for res in results %}
-		<td class="param heading">
+		<td class="param heading col">
 			<span>{{ res['param'] }}</span>
 		</td>
 		{% endfor %}
@@ -35,9 +35,18 @@
 		<td> </td>
 		
 		{% for res in results %}
-		<td class="detail">
+		<td class="detail col">
+			{% if 'sources' in res['detail'] %}
+			<div class="sources setting" sources="{{ res['detail']['sources'] }}">
+				<div>sources</div>
+				{% for src in res['detail']['sources'].split(',') %}
+				<span class="source">{{src}}</span>
+				{% endfor %}
+				<!-- </div> -->
+			</div>
+			{% endif %}
 			{% for setting_name, setting_value in res['detail'].items() %}
-			{% if setting_name != '_id' %}
+			{% if setting_name not in ('_id', 'sources') %}
 			<div class="setting">
 				<div>{{ setting_name }} : {{ setting_value }}</div>
 			</div>
@@ -51,7 +60,7 @@
 	<tr class="accuracy-wrap">
 		<td class="emotion">{{ e }}</td>
 		{% for res in results %}
-		<td class="accuracy">{{ res['accuracy'][e] }}</td>
+		<td class="accuracy col">{{ res['accuracy'][e] }}</td>
 		{% endfor %}
 	</tr>
 	{% endfor %}
@@ -59,7 +68,7 @@
 	<tr class="avg-wrap">
 		<td>avg</td>
 		{% for res in results %}
-		<td class="avg">{{ res['avg_accuracy']*100 }}%</td>
+		<td class="avg col">{{ res['avg_accuracy']*100 }}%</td>
 		{% endfor %}
 	</tr>
 </table>

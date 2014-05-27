@@ -122,6 +122,8 @@ def get_all_results():
 	R = []
 
 	for mdoc in co_svm_eval.find():
+		if mdoc['setting'] not in details:
+			continue
 		rdoc = {
 			'sid': mdoc['setting'],
 			'param': mdoc['param'],
