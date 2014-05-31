@@ -34,6 +34,8 @@ def plot():
 	return render_template( 'chart.html' )
 
 
+caching = True
+
 @app.route('/matrix')
 @app.route('/matrix/')
 def show_matrix():
@@ -42,17 +44,28 @@ def show_matrix():
 	# setting_id='537b00e33681df445d93d57e', svm_param='c9r2t1'
 	args = request.args
 
+	if not os.path.exists(cache_folder_root):
+		print >> sys.stderr, '[warning] cache desternation is not existed'
+		try:
+			os.mkdir(cache_folder_root)
+			print >> sys.stderr, '[cache] cache root created'
+		except:
+			print >> sys.stderr, '[error] failed to create cache folder on'
+			print >> sys.stderr, '\t', cache_folder_root, 'check the permission'
+			print >> sys.stderr, '\t','in the meanwhile, the program cahce will be disabled.'
+
 	if not request.args:
 		data = {}
 		## list availabel matrix
 		# matrix.list_all()
 
 	elif request.args['setting_id'] and request.args['svm_param']:
-		cache_fn   = '.'.join([args['setting_id'], args['svm_param'], 'json'])
-		cache_path = os.path.join(cache_folder_root, cache_fn)
+		if caching:
+			cache_fn   = '.'.join([args['setting_id'], args['svm_param'], 'json'])
+			cache_path = os.path.join(cache_folder_root, cache_fn)
 
 		## found in cache
-		if os.path.exists(cache_path):
+		if caching and os.path.exists(cache_path):
 			data = json.load(open(cache_path, 'r'))
 			print >> sys.stderr, '[cache] load', cache_fn
 		## cannot find in cache
@@ -69,7 +82,7 @@ def show_matrix():
 			print >> sys.stderr, '[call] [server.py] matrix.generate()'
 			data = matrix.generate()
 
-			if data:
+			if caching and data:
 				## cache it
 				json.dump(data, open(cache_path, 'w'))
 				print >> sys.stderr, '[cache] dump', cache_fn
