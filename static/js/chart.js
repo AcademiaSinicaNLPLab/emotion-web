@@ -96,7 +96,7 @@ function draw(data)
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Frequency");
+      .text("pattern score");
 
     svg.selectAll(".bar")
       .data(data)
