@@ -3,6 +3,8 @@ import sys, json, os
 import fetch_mongo
 import confusion_matrix as matrix
 from pprint import pprint
+from datetime import datetime
+
 app = Flask(__name__)
 
 cache_folder_name = 'feelit-data'
@@ -108,6 +110,25 @@ def showplot(pat):
 	print >> sys.stderr, '[info] get pattern "'+pat+'"'
 	pat_data = fetch_mongo.get_pat_dist(pat)
 	print >> sys.stderr, '[info] data length:', len(pat_data)
+
+	ip = request.remote_addr
+	now = datetime.now()
+
+	mdoc = {
+		'time': {
+			'year': now.year,
+			'month': now.month,
+			'day': now.day,
+			'weekday': now.weekday(),
+			'hour': now.hour,
+			'minute': now.minute,
+			'second': now.second
+		},
+		'ip': ip,
+		'pattern': pat
+	}
+	fetch_mongo.insert_log(mdoc)
+
 
 	if type(pat_data) == list and len(pat_data) == 0:
 		return Response(status=204)

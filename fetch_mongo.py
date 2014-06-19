@@ -7,6 +7,7 @@ from collections import defaultdict
 
 mc = pymongo.Connection('doraemon.iis.sinica.edu.tw')
 db = mc['LJ40K']
+logdb = mc['logs']
 
 co_emotions = db['emotions']
 co_docmap = db['docs']
@@ -17,6 +18,8 @@ co_docs = db['docs']
 co_feature_setting = db['features.settings']
 co_svm_eval = db['svm.eval']
 
+co_logs = logdb['feelit']
+
 emo_list = None
 
 docscore_categories = [
@@ -25,6 +28,10 @@ docscore_categories = [
 	'docscore_d0_g3_l3_p2_s0'
 	'docscore_d0_g3_l5_p2_s0'
 ]
+
+def insert_log(mdoc):
+	co_logs.insert(mdoc)
+	return True
 
 def get_emotion_list():
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
