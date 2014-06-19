@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+	search_events();
 	
 	chart_events();
 	chart_autoStyling();
@@ -16,6 +18,64 @@ var data = [];
 
 var colors = ['#428bca', '#5cb85c', '#f0ad4e'];
 var colorsDark = ['#3276b1', '#47a347', '#ed9c28'];
+
+function pat_search(pat)
+{
+
+}
+
+function search_events()
+{
+	$('.pat-search-btn').click(function(){
+		var pat = $.trim( $(this).siblings('.pat-search-bar').val() );
+
+		$('#chart-container').find('.pattern').text(pat);
+		pat = encodeURIComponent( pat.toLowerCase() );
+
+		var api_url = '/api/pat_distribution/'+pat;
+
+		$('.pat-search-loading').toggleClass('hide');
+		
+
+			setTimeout(function(){
+				$.ajax({
+					url: api_url,
+					type: "GET",
+					statusCode: {
+						200: function (data) {
+							console.log('[200] get',data.length,'emotions in "'+decodeURIComponent(pat)+'"' );
+
+							// defined in chart.js
+							draw(data);
+
+							$('#chart-container').removeClass('hide');
+							$('.mask').removeClass('hide');
+						},
+						204: function (resp) {
+							console.log('[204] no data for "'+decodeURIComponent(pat)+'"');
+
+							// obj.addClass('lock').removeClass('open');
+						},
+						500: function (resp) {
+							console.log('[500] error to get info of "',decodeURIComponent(pat)+'"');
+						}
+					}
+				}).complete(function(){
+					console.log('complete ajax');
+					// close loading
+					$('.pat-search-loading').toggleClass('hide');
+				});	
+			}, 250);
+
+
+	});
+	$('.pat-search-bar').keyup(function(e){
+		if(e.keyCode == 13 || e.which == 13)
+		{
+			$('.pat-search-btn').click();
+		}
+	});	
+}
 
 function chart_autoStyling() {
 	var len = $('.info-block').length;

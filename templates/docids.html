@@ -3,6 +3,9 @@
 {% block content %}
 <div class="content-wrap">
 	<div class="info-wrap">
+
+		<img class="pat-search-loading hide" src="{{ url_for('static', filename='img/loading.gif') }}"/>
+
 		<a href="{{ url_for('list_emotions') }}">
 		<div class="info-block">
 			<div class="info-text info-element">LJ40K</div>
@@ -17,6 +20,11 @@
 			<div class="info-tri-shadow arrow-right"></div>
 		</div>
 		</a>
+
+		<div class="pat-search-wrap">
+			<input class="pat-search-bar" type="text" />
+			<img class="pat-search-btn" src="{{ url_for('static', filename='img/search.png') }}"/>
+		</div>		
 	</div>
 
 	{% for i in range(1000) %}
@@ -24,5 +32,17 @@
 		<div class="docid-item theme-{{ i%2 }}">{{ i }}</div>
 	</a>
 	{% endfor %}
+
+	<div class="mask hide">
+
+	</div>
+	<!-- <hr /> -->
+
+	<div id="chart-container" class="container hide">
+		<div class="chart-wrap wrap">
+			<label class="pattern">pattern</label>
+			<label class="close">X</label>
+		</div>
+	</div>	
 </div>
 {% endblock %}

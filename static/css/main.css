@@ -42,21 +42,55 @@ div.content-wrap {
 	border-bottom: 2px dashed #ccc;
 }
 
-.info-wrap .info-block {
-	float: left;
+	.info-wrap .info-block {
+		float: left;
 
-	min-width: 64px;
-	height: 32px;
-	/*background: red;*/
-	position: relative;
-}
-.info-wrap .info-block .info-element:hover {
-	/*display: inline-block;*/
-	/*float: left;*/
-	/*position: relative;*/
-	cursor: pointer;
-}
+		min-width: 64px;
+		height: 32px;
+		/*background: red;*/
+		position: relative;
+	}
+		.info-wrap .info-block .info-element:hover {
+			/*display: inline-block;*/
+			/*float: left;*/
+			/*position: relative;*/
+			cursor: pointer;
+		}
 
+	.info-wrap .pat-search-wrap
+	{
+		position: absolute;
+		right: 0; 
+		width: 320px;
+
+
+	}
+
+		.info-wrap .pat-search-wrap .pat-search-bar
+		{
+			outline: 0;
+			font-size: 16px;
+			/* border-bottom: 1px solid #aaa; */
+			border: 0;
+			border-bottom: 1px solid #aaa;
+			text-align: center;
+			color: #444;
+		}
+		img.pat-search-btn
+		{
+			width: 36px;
+			opacity: 0.6;
+			position: absolute;
+			top: -7px;	
+			cursor: pointer;		
+		}
+		img.pat-search-loading {
+			width: 1024px;
+			position: absolute;
+			left: 0px;
+			z-index: -1;
+		}
+	
 .info-tri {
 	position: absolute;
 	top: 0;
