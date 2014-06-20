@@ -1,46 +1,28 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9" />
 
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" type="text/css">
+  
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"/>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/chart.css') }}" type="text/css">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/matrix.css') }}" type="text/css">
-	
-	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"/>
-	
-	<title>Feelit</title>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+  <title>Feelit</title>
 
 </head>
-<body class="index">
-	<div>
-		<div class="banner-wrap">
-			Feelit
-		</div>
-		<div class="function-nav-blocks">
-			<a href="{{ url_for('list_emotions') }}">
-				<div class="function-nav-block" id="browse-block">
-					<span>Browse<br> &nbsp;</span>
-				</div>
-			</a>
-			<a href="{{ url_for('show_matrix') }}">
-				<div class="function-nav-block" id="matrix-block">
-					<span>Confusion Matrix</span>
-				</div>
-			</a>
-			
-		</div>
-	</div>
+<body>
 
-	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/chart.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/matrix.js') }}"></script>
+  <div id="slogan"> Feelit </div>
+  <div id="desctiption">senses your mood.
+    <a href="{{ url_for('list_emotions') }}"><i class="fa fa-chevron-circle-right"></i></a>
+  </div>
+  <canvas id="canvas"></canvas>
 
-	<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
-	
+  <script type="text/javascript" src="{{ url_for('static', filename='js/particle.js') }}"></script>
+  
 </body>
 </html>

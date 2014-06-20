@@ -6,9 +6,6 @@ $(document).ready(function(){
 	chart_autoStyling();
 
 	matrix_events();
-
-	results_events();
-
 	$('#tomatrix').click();
 });
 
