@@ -18,6 +18,8 @@ co_docs = db['docs']
 co_feature_setting = db['features.settings']
 co_svm_eval = db['svm.eval']
 
+co_stat_pats = db['stat.pats']
+
 co_logs = logdb['feelit']
 
 emo_list = None
@@ -36,6 +38,32 @@ def insert_log(mdoc):
 def get_emotion_list():
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
 	return sorted( [x['emotion'] for x in emotions] )
+
+def get_pats_stat(digit=None):
+	import re
+	pats_stat = []
+	for mdoc in co_stat_pats.find({}, {'_id':0}):
+
+		
+		if re.findall(r'<[a-z]+', mdoc['pattern']):
+			continue
+		# <html>
+		# <a href=....
+		# <td > <font >
+
+		if digit:
+			mdoc_new = {}
+			for k in mdoc:
+				if type(mdoc[k]) == float:
+					val = round(mdoc[k], digit)
+				else:
+					val = mdoc[k]
+				mdoc_new[k] = val
+			mdoc = mdoc_new
+		mdoc['p_len'] = len(mdoc['pattern'])
+		pats_stat.append(mdoc)
+	return pats_stat
+
 
 
 def get_docscore_categories(): 
@@ -149,6 +177,7 @@ def get_all_results():
 if __name__ == '__main__':
 	
 	# print get_pat_dist('i am pissed')
+
 	print get_all_results()
 	# emotion = "crazy"
 	# ldocID = 0
