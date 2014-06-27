@@ -1,0 +1,41 @@
+{% extends "_head.html" %}
+
+{% block content %}
+<div class="content-wrap">
+
+
+	<table>
+	<tr>
+		<td>pattern</td>
+		<td>count</td>
+		<td>{std</td>
+		<td>nstd</td>
+		<td>Mm</td>
+		<td>nstdxMm</td>
+		<td>entropy</td>
+	</tr>		
+	{% for mdoc in data %}
+		<tr>
+			<td>{{ mdoc['pattern'] }}</td>
+			<td>{{ mdoc['count'] }}</td>
+			<td>{{ mdoc['std'] }}</td>
+			<td>{{ mdoc['nstd'] }}</td>
+			<td>{{ mdoc['Mm'] }}</td>
+			<td>{{ mdoc['nstdxMm'] }}</td>
+			<td>{{ mdoc['entropy'] }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+
+	<div class="mask hide">
+
+	</div>
+
+	<div id="chart-container" class="container hide">
+		<div class="chart-wrap wrap">
+			<label class="pattern">pattern</label>
+			<label class="close">X</label>
+		</div>
+	</div>	
+</div>
+{% endblock %}

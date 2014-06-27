@@ -37,6 +37,13 @@ def plot():
 	return render_template( 'chart.html' )
 
 
+@app.route('/scoring')
+@app.route('/scoring/')
+def show_scoring():
+	pats_stat = fetch_mongo.get_pats_stat(digit=3)
+	return render_template( 'scoring.html', data=pats_stat )
+
+
 caching = True
 
 @app.route('/matrix')
