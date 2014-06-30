@@ -235,6 +235,8 @@ def get_TF3IDF2_feat(sents, lemmatize):
 	max_nt = max(N.values())
 
 	for t in WC:
+		if t not in N or t not in featID_N_lemma:
+			continue
 		idf2 = max_nt - N[t]
 		wc = WC[t]
 		tf3 = wc / float( wc + total_words/delta_d )
@@ -247,25 +249,35 @@ def get_TF3IDF2_feat(sents, lemmatize):
 # TF3_IDF2 + pat-emo-s-50%
 ## input: <string> doc
 ## output: emotion
-def instant_emotion_detection(doc, server):
+def detect(doc, server):
 
 	sents = json.loads( server.parse( doc ) )['sentences']
 
 	## get patterns
 	pats = extract_patterns(sents)
+	print 'get pats:',pats
+
 
 	## get pattern features
 	pattern_feat = get_patemo_feat(pats)
-	print pattern_feat
+	print 'pattern_feat:',pattern_feat
 
 	## get tfidf features
 	tf3idf2_feat = get_TF3IDF2_feat(sents, lemmatize=True)
-	print tf3idf2_feat
+	print 'tf3idf2_feat:',tf3idf2_feat
+
+	features = {'TFIDF': tf3idf2_feat ,'pattern': pattern_feat}
+
+	return features
+	# print tf3idf2_feat
 
 
 if __name__ == '__main__':
 
 	doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
-	instant_emotion_detection(doc, server)
+	
+	features = instant_emotion_detection(doc, server)
+
+	print features
 
 

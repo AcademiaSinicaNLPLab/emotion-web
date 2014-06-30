@@ -5,7 +5,9 @@ $(document).ready(function(){
 	chart_events();
 	chart_autoStyling();
 
-	matrix_events();
+	// matrix_events();
+
+	instant_events();
 	$('#tomatrix').click();
 });
 
@@ -15,11 +17,6 @@ var data = [];
 
 var colors = ['#428bca', '#5cb85c', '#f0ad4e'];
 var colorsDark = ['#3276b1', '#47a347', '#ed9c28'];
-
-function pat_search(pat)
-{
-
-}
 
 function search_events()
 {
@@ -187,4 +184,10 @@ function matrix_events()
 	bind_label_hover_event();
 	bind_dev_events();
 	bind_filter_evnet();
+}
+
+function instant_events()
+{
+	bind_instant_predict_event();
+	bind_feature_options_event();
 }

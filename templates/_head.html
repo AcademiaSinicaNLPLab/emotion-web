@@ -14,6 +14,13 @@
 	
 	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"/>
 	
+  	<link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}" type="text/css">
+  	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" type="text/css">
+  
+  	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+
+  
+
 	<title>Feelit</title>
 
 </head>
@@ -23,8 +30,11 @@
 
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+
 	<script type="text/javascript" src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
 	<script type="text/javascript" src="{{ url_for('static', filename='js/matrix.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/instant.js') }}"></script>
 
 	<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 

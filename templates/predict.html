@@ -1,0 +1,36 @@
+{% extends "_head.html" %}
+
+{% block content %}
+<div class="content-wrap">
+
+	<div class="demo-textarea-wrap">
+		<textarea id="demo-textarea" type="text">man, listen, I AM PISSED, just leave me alone!!</textarea>
+	</div>
+
+	<div class="demo-submit-btn">
+		<button id="demo-submit-btn">Predict</button>
+	</div>
+	
+	<div>
+		<div class="feature-options hide">
+			<label>TFIDF</label>
+			<input type="text" value="0.7"/>
+		</div>
+
+
+		<div class="feature-options hide">
+			<label>pattern</label>
+			<input type="text" value="0.3"/>
+		</div>		
+	</div>
+
+	<div id="pie-emotion-wrap"></div>
+</div>
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/demo-pie.js') }}"></script>
+
+{% endblock %}
+

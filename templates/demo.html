@@ -11,18 +11,14 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 
   <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/instant.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+  
   <title>Feelit - Demo</title>
 
 </head>
 <body>
-  <div>
-    {% for label, prob in prediction %}
-    <div>
-      <span>{{ label }}</span>
-      <span>{{ prob }}</span>
-    </div>
-    {% endfor %}
-  </div>
-  
+  <textarea id="demo-textarea"></textarea>
+  <button id="demo-submit-btn">predict</button>
 </body>
 </html>
