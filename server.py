@@ -234,12 +234,12 @@ def api_for_predict_article():
 	if request.method != 'POST':
 		return json.dumps({})
 	else:
-
-		print request.form
+# 
+		# print request.form
 
 		options = eval(request.form['options'])
 
-		print 'options:',options
+		# print 'options:',options
 
 		doc = request.form['article'].strip()
 
@@ -262,7 +262,7 @@ def api_for_predict_article():
 		# p_vals['TFIDF'] = svm_wrap.predict(models['TFIDF'], features['TFIDF'])
 		# p_vals['pattern'] = svm_wrap.predict(models['pattern'], features['pattern'])
 
-		print p_vals
+		# print p_vals
 
 		global eid_map
 		labels = svm_wrap.emit(eid_map, p_vals, sorting=False)

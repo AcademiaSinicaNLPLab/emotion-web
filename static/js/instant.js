@@ -36,11 +36,11 @@ function randomData (){
 function bind_instant_predict_event () {
 	$('#demo-submit-btn').click(function(){
 		var text = $('#demo-textarea').val();
-		console.log(text);
+		
 
 		// var feature_types = $('.feature-checkbox').map(function() { return $(this).val(); }).get();
 		// console.log( feature_types );
-		var api_url = '/api/predict/'
+		var api_url = '/feelit/api/predict/'
 		$.ajax({
 			url: api_url,
 			type: "POST",
@@ -50,7 +50,6 @@ function bind_instant_predict_event () {
 					console.log('[200] get',data);
 
 					var parsed = JSON.parse(data);
-					console.log(parsed);
 
 					// var seq = $.map( parsed, function(i, val){
 						
@@ -63,9 +62,6 @@ function bind_instant_predict_event () {
 
 					var d = randomData();
 
-					console.log(d);
-
-					console.log(labels);
 					change(labels);
 
 					// d3.select(".randomize")

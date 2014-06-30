@@ -15,7 +15,7 @@ a
 #demo-textarea
 {
 	width: 960px;
-	min-height: 360px;
+	min-height: 128px;
 	outline: none;
 	border: 0;
 	border: 2px solid #DFDFDF;
