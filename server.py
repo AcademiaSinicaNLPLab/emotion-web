@@ -4,7 +4,7 @@ import fetch_mongo
 import confusion_matrix as matrix
 from pprint import pprint
 from datetime import datetime
-import svm_wrap
+
 
 import instant
 
@@ -122,31 +122,13 @@ def show_results():
 
 
 
-TFIDF_model   = ('538bcfaad4388c59136665df', 'c2g0.001t2')
-pattern_model = ('53875eead4388c4eac581415', 'c2g0.001t2')
-models = {}
-models['TFIDF'] = svm_wrap.load_models(setting=TFIDF_model)
-models['pattern'] = svm_wrap.load_models(setting=pattern_model)
-eid_map = svm_wrap.get_emotion_map()
 
-# print 'init stanford_parser'
-# stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
-import jsonrpc, pymongo, config
-from nltk.stem.wordnet import WordNetLemmatizer
-
-print 'connect mongo'
-db = pymongo.Connection(config.mongo_addr)[config.db_name]
-
-print 'init server'
-stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
-
-print 'init WordNetLemmatizer'
-lmtzr = WordNetLemmatizer()
 
 @app.route('/predict')
 @app.route('/predict/')
 def predict_article():
-	
+
+
 	# global stanford_parser
 
 	# doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
@@ -221,6 +203,29 @@ def show_settings():
 	return json.dumps(settings)
 	# return Response(json.dumps(settings), mimetype="application/json", status=200)
 
+
+import svm_wrap
+
+TFIDF_model   = ('538bcfaad4388c59136665df', 'c2g0.001t2')
+pattern_model = ('53875eead4388c4eac581415', 'c2g0.001t2')
+models = {}
+models['TFIDF'] = svm_wrap.load_models(setting=TFIDF_model)
+models['pattern'] = svm_wrap.load_models(setting=pattern_model)
+eid_map = svm_wrap.get_emotion_map()
+
+# print 'init stanford_parser'
+# stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
+import jsonrpc, pymongo, config
+from nltk.stem.wordnet import WordNetLemmatizer
+
+print 'connect mongo'
+db = pymongo.Connection(config.mongo_addr)[config.db_name]
+
+print 'init server'
+stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
+
+print 'init WordNetLemmatizer'
+lmtzr = WordNetLemmatizer()
 
 @app.route('/api/predict', methods=['POST'])
 @app.route('/api/predict/', methods=['POST'])

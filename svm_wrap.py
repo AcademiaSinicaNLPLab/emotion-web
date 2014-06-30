@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append('/tools/libsvm-3.17/python/')
+sys.path.append('/tools/libsvm/python/')
+
 import os
 from collections import defaultdict
 from svmutil import *
