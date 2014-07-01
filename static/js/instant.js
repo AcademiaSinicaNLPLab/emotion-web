@@ -40,7 +40,9 @@ function bind_instant_predict_event () {
 
 		// var feature_types = $('.feature-checkbox').map(function() { return $(this).val(); }).get();
 		// console.log( feature_types );
-		var api_url = '/feelit/api/predict/'
+		// var api_url = '/feelit/api/predict/';
+		var api_url = '/api/predict/';
+		
 		$.ajax({
 			url: api_url,
 			type: "POST",
