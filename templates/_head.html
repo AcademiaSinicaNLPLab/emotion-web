@@ -19,18 +19,19 @@
   
   	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 
-  
+  	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
 
 	<title>Feelit</title>
 
 </head>
 <body>
+
+
+
 	{% block content %}
 	{% endblock %}
-
-	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
-
+	
 	<script type="text/javascript" src="{{ url_for('static', filename='js/chart.js') }}"></script>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='js/matrix.js') }}"></script>

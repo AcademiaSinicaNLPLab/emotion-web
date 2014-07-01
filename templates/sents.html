@@ -31,10 +31,21 @@
 		<div class="pat-search-wrap">
 			<input class="pat-search-bar" type="text" />
 			<img class="pat-search-btn" src="{{ url_for('static', filename='img/search.png') }}"/>
-		</div>		
+		</div>
 	</div>
 
-	<div style="text-align: right; font-family: Verdana; color:#3366cc"><a href="?text" target="_blank">article</a></div>
+	<div class="sents-functions-wrap">
+		<div id="feeling-platte" class="sents-function">°feeling</div>
+		<div id="article-link" class="sents-function"><a href="?text" target="_blank">article</a></div>
+	</div>
+
+	<div class="color-wrap hide">
+		<table class="color-levels-wrap" cellspacing="0" cellpadding="0"></table>
+	</div>
+	<div class="color-info-wrap">
+		<span class="color-emotion"></span>
+		<span class="color-pattern"></span>
+	</div>	
 
 	<ol type='1'>
 		{% for sent, pats in sp_pairs %}
@@ -64,4 +75,7 @@
 
 	</div>
 </div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/sents.js') }}"></script>
+
 {% endblock %}

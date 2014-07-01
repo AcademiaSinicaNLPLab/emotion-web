@@ -6,7 +6,7 @@ from pprint import pprint
 from datetime import datetime
 
 
-import instant
+# import instant
 
 app = Flask(__name__)
 
@@ -30,17 +30,19 @@ def list_docIDs(emotion):
 @app.route('/browse/<emotion>/<int:ldocID>/', methods=['GET'])
 def list_sents(emotion, ldocID):
 
-	sp_pairs = fetch_mongo.get_sp_pairs(emotion, ldocID)
-	docscore_categories = fetch_mongo.get_docscore_categories()
+	udocID = fetch_mongo.get_udocID(emotion, ldocID)
+	sp_pairs = fetch_mongo.get_sp_pairs(udocID)
 
+
+	### plain text mode
 	if 'text' in request.args:
 		sents = ''
 		for sent, pats in sp_pairs:
 			sents += '<div>'+sent+'</div>'
 		return sents
-	
-
-	return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, sp_pairs=sp_pairs, docscore_categories=docscore_categories )
+	### interactive mode
+	else:
+		return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, udocID=udocID, sp_pairs=sp_pairs )
 
 @app.route('/chart')
 @app.route('/chart/')
@@ -184,14 +186,26 @@ def showplot(pat):
 		return Response(status=500)
 
 @app.route('/api/pat_sentences/<pat>')
+@app.route('/api/pat_sentences/<pat>/')
 @app.route('/api/pat_sentences/<pat>/<emo>/')
 def showsents(pat, emo=None):
-	return fetch_mongo.get_sents_by_pat(pat, emo)
+	sents = fetch_mongo.get_sents_by_pat(pat, emo)
+	return sents
 
-@app.route('/api/docscore/<udocID>/<docscore_category>')
-def showdocscore():
-	return fetch_mongo.get_docscores(udocID, docscore_category)
+# @app.route('/api/docscore/<udocID>/<docscore_category>')
+# def showdocscore():
+# 	return fetch_mongo.get_docscores(udocID, docscore_category)
 
+@app.route('/api/pat_color/<pat>')
+@app.route('/api/pat_color/<pat>/')
+@app.route('/api/pat_color/<pat>/<percent>/')
+def get_pat_color(pat, percent=0.5):
+	percent = float(percent)
+	pat = pat.strip().lower()
+	print 'get pattern >', [pat]
+	render_colors = fetch_mongo.get_pats_colors(pat, percent, return_format=tuple, emotion_label=True)
+	# return jsonify(render_colors)
+	return json.dumps(render_colors)
 
 @app.route('/api/settings')
 @app.route('/api/settings/')
@@ -201,75 +215,72 @@ def show_settings():
 	# return Response(json.dumps(settings), mimetype="application/json", status=200)
 
 
-import svm_wrap
+# import svm_wrap
 
-TFIDF_model   = ('538bcfaad4388c59136665df', 'c2g0.001t2')
-# pattern_model = ('53875eead4388c4eac581415', 'c2g0.001t2') # 50%
-pattern_model = ('53876645d4388c6f97360eb2', 'c2g0.001t2') # 100%
+# TFIDF_model   = ('538bcfaad4388c59136665df', 'c2g0.001t2')
+# # pattern_model = ('53875eead4388c4eac581415', 'c2g0.001t2') # 50%
+# pattern_model = ('53876645d4388c6f97360eb2', 'c2g0.001t2') # 100%
 
-models = {}
-print 'loading model',pattern_model
+# models = {}
+# print 'loading model',pattern_model
 # models['TFIDF'] = svm_wrap.load_models(setting=TFIDF_model)
-models['pattern'] = svm_wrap.load_models(setting=pattern_model)
-eid_map = svm_wrap.get_emotion_map(svm_wrap.emo_2_eid)
-print eid_map
-# print 'init stanford_parser'
+# models['pattern'] = svm_wrap.load_models(setting=pattern_model)
+# eid_map = svm_wrap.get_emotion_map(svm_wrap.emo_2_eid)
+
+# import jsonrpc, pymongo, config
+# from nltk.stem.wordnet import WordNetLemmatizer
+
+# print 'connect mongo'
+# db = pymongo.Connection(config.mongo_addr)[config.db_name]
+
+# print 'init server'
 # stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
-import jsonrpc, pymongo, config
-from nltk.stem.wordnet import WordNetLemmatizer
 
-print 'connect mongo'
-db = pymongo.Connection(config.mongo_addr)[config.db_name]
+# print 'init WordNetLemmatizer'
+# lmtzr = WordNetLemmatizer()
 
-print 'init server'
-stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
+# @app.route('/api/predict', methods=['POST'])
+# @app.route('/api/predict/', methods=['POST'])
+# def api_for_predict_article():
 
-print 'init WordNetLemmatizer'
-lmtzr = WordNetLemmatizer()
+# 	if request.method != 'POST':
+# 		return json.dumps({})
+# 	else:
+# 		# print request.form
 
-@app.route('/api/predict', methods=['POST'])
-@app.route('/api/predict/', methods=['POST'])
-def api_for_predict_article():
+# 		options = eval(request.form['options'])
 
-	if request.method != 'POST':
-		return json.dumps({})
-	else:
-# 
-		# print request.form
+# 		# print 'options:',options
 
-		options = eval(request.form['options'])
+# 		doc = request.form['article'].strip()
 
-		# print 'options:',options
+# 		global stanford_parser
 
-		doc = request.form['article'].strip()
-
-		global stanford_parser
-
-		# doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
-		features = instant.detect(doc, stanford_parser)
+# 		# doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
+# 		features = instant.detect(doc, stanford_parser)
 
 
-		global models
-		# p_vals = {}
+# 		global models
+# 		# p_vals = {}
 
-		weights = {
-			'TFIDF': 0,
-			'pattern': 1.0
-		}
+# 		weights = {
+# 			'TFIDF': 0,
+# 			'pattern': 1.0
+# 		}
 
-		# p_vals = svm_wrap.fusion_predict(models, weights, features)
+# 		# p_vals = svm_wrap.fusion_predict(models, weights, features)
 
-		# p_vals['TFIDF'] = svm_wrap.predict(models['TFIDF'], features['TFIDF'])
-		p_vals = svm_wrap.predict(models['pattern'], features['pattern'])
+# 		# p_vals['TFIDF'] = svm_wrap.predict(models['TFIDF'], features['TFIDF'])
+# 		p_vals = svm_wrap.predict(models['pattern'], features['pattern'])
 
-		# print p_vals
+# 		# print p_vals
 
-		global eid_map
-		labels = svm_wrap.emit(eid_map, p_vals, sorting=False)
+# 		global eid_map
+# 		labels = svm_wrap.emit(eid_map, p_vals, sorting=False)
 		
-		return json.dumps(labels)
+# 		return json.dumps(labels)
 
-		# return render_template( 'demo.html', prediction=labels)
+# 		# return render_template( 'demo.html', prediction=labels)
 
 if __name__ == "__main__":
 	import getopt, sys

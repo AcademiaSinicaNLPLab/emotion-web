@@ -69,10 +69,13 @@ def get_pats_stat(digit=None):
 def get_docscore_categories(): 
 	return docscore_categories
 
+### get sentence_pattern pairs
 
-def get_sp_pairs(emotion, ldocID):
-	
+def get_udocID(emotion, ldocID):
 	udocID = co_docmap.find_one( {'emotion': emotion, 'ldocID': ldocID} )['udocID']
+	return udocID
+
+def get_sp_pairs(udocID):
 	pairs = []
 	sents = sorted( list( co_sents.find( {'udocID': udocID} ) ), key=lambda x:x['usentID'] )
 	for sent in sents:
@@ -82,6 +85,57 @@ def get_sp_pairs(emotion, ldocID):
 		pairs.append( (sent['sent'], [x[0] for x in pats]) )
 	return pairs
 
+
+
+def accumulate_threshold(count, percentage):
+	## temp_dict -> { 0.3: ['happy', 'angry'], 0.8: ['sleepy'], ... }
+	## (count)	    { 2:   ['bouncy', 'sleepy', 'hungry', 'creative'], 3: ['cheerful']}
+	temp_dict = defaultdict( list ) 
+	for e in count:
+		temp_dict[count[e]].append(e)
+	
+	## temp_list -> [ (0.8, ['sleepy']), (0.3, ['happy', 'angry']), ... ] ((sorted))
+	## (count)	    [ (3, ['cheerful']), (2,   ['bouncy', 'sleepy', 'hungry', 'creative'])]
+	temp_list = temp_dict.items()
+	temp_list.sort(reverse=True)
+
+	th = percentage * sum( count.values() )
+	current_sum = 0
+	selected_emotions = []
+
+	while current_sum < th:
+		top = temp_list.pop(0)
+		selected_emotions.extend( top[1] )
+		current_sum += top[0] * len(top[1])
+
+	return dict( zip(selected_emotions, [1]*len(selected_emotions)) )
+
+colors = json.load(open('feelit-data/colors.json'))
+def get_pats_colors(pat, percent=0.5, return_format=dict, emotion_label=True):
+	global emo_list, colors
+	if not emo_list:
+		emo_list = get_emotion_list()
+
+	mdoc = co_lexicon.find_one({'pattern': pat})
+
+	render_colors = { e:'none' for e in emo_list}
+	if mdoc:
+		counts = mdoc['count']
+		E = accumulate_threshold(count=counts, percentage=percent)
+
+		for e in E:
+			render_colors[e] = colors[e]
+
+	if return_format == tuple or return_format == list:
+		if emotion_label:
+			return [(e, render_colors[e]) for e in emo_list]
+		else:
+			return [render_colors[e] for e in emo_list]
+	else:
+		if emotion_label:
+			return render_colors
+		else:
+			return [render_colors[e] for e in emo_list]
 
 def get_pat_dist(pat, percent=True):
 
@@ -176,9 +230,9 @@ def get_all_results():
 
 if __name__ == '__main__':
 	
-	# print get_pat_dist('i am pissed')
+	print get_pat_dist('i am pissed')
 
-	print get_all_results()
+	# print get_all_results()
 	# emotion = "crazy"
 	# ldocID = 0
 	# pairs = sent_pat_pairs(emotion, ldocID)
