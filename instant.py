@@ -255,32 +255,74 @@ def get_TF3IDF2_feat(sents, lemmatize):
 ## output: emotion
 def detect(doc, server):
 
-	sents = json.loads( server.parse( doc ) )['sentences']
+	sents = [line.strip() for line in doc.strip().split('\n')]
+	parsed_sents = []
+	for sent in sents:
+		print 'parsing',sent
+		try:
+			parsed_sent = json.loads( server.parse( sent ) )['sentences']
+		except:
+			print 'error',sent
+			continue
+		parsed_sents.extend(parsed_sent)
+	
+	# sents = json.loads( server.parse( doc ) )['sentences']
 
 	## get patterns
-	pats = extract_patterns(sents)
-	print 'get pats:', '\n'.join([ ' '.join([y[0] for y in x['pat']]) for x in pats])
+	pats = extract_patterns(parsed_sents)
+	str_pats = [ ' '.join([y[0] for y in x['pat']]) for x in pats]
+	print '='*30,'get patterns','='*30
+	print Counter(str_pats)
 
 	## get pattern features
 	pattern_feat = get_patemo_feat(pats)
-	print 'pattern_feat:',pattern_feat
+	print '='*30,'pattern features','='*30
+	print pattern_feat
 
 	## get tfidf features
-	tf3idf2_feat = get_TF3IDF2_feat(sents, lemmatize=True)
-	print 'tf3idf2_feat:',tf3idf2_feat
+	tf3idf2_feat = get_TF3IDF2_feat(parsed_sents, lemmatize=True)
+	print '='*30,'TFIDF features','='*30
+	print tf3idf2_feat
 
 	features = {'TFIDF': tf3idf2_feat ,'pattern': pattern_feat}
 
 	return features
-	# print tf3idf2_feat
 
 
 if __name__ == '__main__':
 
-	doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
+	# doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
 	
-	features = detect(doc, server)
+	doc = u'''wow
+	i have to say
+	you are tricky
+	tricky little girl you are
+	i do n't understand what your problem is
+	you should really stop being selfish and stop whining about yourself because there are other people trying to tell you things
+	like really let 's steal some guys cuz that 's always fuckin ' cool
+	you are accomplishing a lot you twat
+	seriously you are fuckin ' messed up and i really do n't know what else to tell ya besides GET SOME HELP
+	YOU 'RE FUCKIN ' UP BIG TIME
+	you cause too much pain , especially on those who least deserve it
+	what did i ever do to you
+	i always there if you needed me
+	and i fuckin ' do n't care who reads this
+	you can put your thoughts on your site but in all reality you would n't be able to take criticism
+	just because you are hurting over a guy does n't mean you should take things away from other people
+	WE KNOW
+	i really hope you are happy , love
+	i hope you are satisfied with the damage you 've caused
+	god forbid you be unhappy
+	and you should also give yourself a round of applause on breaking your own best friend 's heart
+	you do n't know the pain you caused her and you knew how she felt
+	you are out to break everyone 's heart
+	god knows , you broke mine
+	be happy
+	you 're rotten
+	i do n't even know you any more
+	you disgust me . sorry but this is the only way to get you to listen .
+	'''
 
-	print features
+	features = detect(doc, server)
 
 
