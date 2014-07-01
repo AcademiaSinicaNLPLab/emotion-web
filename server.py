@@ -121,9 +121,6 @@ def show_results():
 
 
 
-
-
-
 @app.route('/predict')
 @app.route('/predict/')
 def predict_article():
@@ -207,12 +204,15 @@ def show_settings():
 import svm_wrap
 
 TFIDF_model   = ('538bcfaad4388c59136665df', 'c2g0.001t2')
-pattern_model = ('53875eead4388c4eac581415', 'c2g0.001t2')
-models = {}
-models['TFIDF'] = svm_wrap.load_models(setting=TFIDF_model)
-models['pattern'] = svm_wrap.load_models(setting=pattern_model)
-eid_map = svm_wrap.get_emotion_map()
+# pattern_model = ('53875eead4388c4eac581415', 'c2g0.001t2') # 50%
+pattern_model = ('53876645d4388c6f97360eb2', 'c2g0.001t2') # 100%
 
+models = {}
+print 'loading model',pattern_model
+# models['TFIDF'] = svm_wrap.load_models(setting=TFIDF_model)
+models['pattern'] = svm_wrap.load_models(setting=pattern_model)
+eid_map = svm_wrap.get_emotion_map(svm_wrap.emo_2_eid)
+print eid_map
 # print 'init stanford_parser'
 # stanford_parser = jsonrpc.ServerProxy(jsonrpc.JsonRpc20(), jsonrpc.TransportTcpIp(addr=("doraemon.iis.sinica.edu.tw", 12345)))
 import jsonrpc, pymongo, config
@@ -250,17 +250,17 @@ def api_for_predict_article():
 
 
 		global models
-		p_vals = {}
+		# p_vals = {}
 
 		weights = {
-			'TFIDF': 0.7,
-			'pattern': 0.3
+			'TFIDF': 0,
+			'pattern': 1.0
 		}
 
-		p_vals = svm_wrap.fusion_predict(models, weights, features)
+		# p_vals = svm_wrap.fusion_predict(models, weights, features)
 
 		# p_vals['TFIDF'] = svm_wrap.predict(models['TFIDF'], features['TFIDF'])
-		# p_vals['pattern'] = svm_wrap.predict(models['pattern'], features['pattern'])
+		p_vals = svm_wrap.predict(models['pattern'], features['pattern'])
 
 		# print p_vals
 

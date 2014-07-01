@@ -186,13 +186,17 @@ def get_patemo_feat(pats):
 
 	feat = {}
 	patscores = Counter()
-	
+
 	for pat in pats:
 		pattern = ' '.join( [ x[0].lower() for x in pat['pat'] ] )
-		mdoc = db['patscore.normal'].find_one({ 'pattern': pattern })
-		if mdoc:
-			for emo in mdoc['score']:
-				patscores[emo] += mdoc['score'][emo]
+
+		if not db['lexicon.nested.min_count_4'].find_one({ 'pattern': pattern }):
+			continue
+		else:
+			mdoc = db['patscore.normal'].find_one({ 'pattern': pattern })
+			if mdoc:
+				for emo in mdoc['score']:
+					patscores[emo] += mdoc['score'][emo]
 
 	for emo in patscores:
 		featID = featID_emotions[emo]
@@ -255,8 +259,7 @@ def detect(doc, server):
 
 	## get patterns
 	pats = extract_patterns(sents)
-	print 'get pats:',pats
-
+	print 'get pats:', '\n'.join([ ' '.join([y[0] for y in x['pat']]) for x in pats])
 
 	## get pattern features
 	pattern_feat = get_patemo_feat(pats)
@@ -276,7 +279,7 @@ if __name__ == '__main__':
 
 	doc = u"Today I went to donate blood, but my blood didn't flow out smoothly through the first needle. Today was a little chilly, so the nurse said that my vessels were contracting and my blood circulation was not good. After applying a hot compress for a while, they tried again. Actually, I am afraid of needles, even though it is just like getting bitten by a mosquito. I turned my head to distract my attention from the syringe, but the fear of being penetrated inevitably got me nervous. Despite not my first time, it still got me unnerved."
 	
-	features = instant_emotion_detection(doc, server)
+	features = detect(doc, server)
 
 	print features
 
