@@ -41,11 +41,11 @@ function bind_instant_predict_event () {
 		// var feature_types = $('.feature-checkbox').map(function() { return $(this).val(); }).get();
 		// console.log( feature_types );
 
-		var api_url = '/api/predict/';
-		if(window.location.pathname.indexOf('doraemon.iis.sinica.edu.tw') > 0)
-		{
-			api_url = '/feelit/api/predict/';
-		}
+		var api_url = '';
+		var found = window.location.pathname.indexOf('/feelit/')
+		
+		if(found >= 0) { api_url = '/feelit/api/predict/'; }
+		else {api_url = '/api/predict/'; }
 		
 		$.ajax({
 			url: api_url,
