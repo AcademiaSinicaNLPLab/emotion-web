@@ -1,28 +1,45 @@
 {% extends "_head.html" %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/scoring.css') }}" type="text/css">
+
 <div class="content-wrap">
 
+	<div class="filters-wrap">
+		<input class="filter-name" value="entropy"/>
+		<select class="filter-option">
+			<option value=">">></option>
+			<option value="<"><</option>
+		</select>
+		<input class="filter-value" value="5.2"/>
+		<div class="filter-info">
+			<span>Remain:</span>
+			<span class="remain-value"></span>
+		</div>
+	</div>
 
-	<table>
-	<tr>
+	<table class="data">
+	<tr class="table-head">
+		<td>i-th</td>
 		<td>pattern</td>
 		<td>count</td>
-		<td>{std</td>
+		<td>std</td>
 		<td>nstd</td>
 		<td>Mm</td>
 		<td>nstdxMm</td>
 		<td>entropy</td>
 	</tr>		
-	{% for mdoc in data %}
-		<tr>
-			<td>{{ mdoc['pattern'] }}</td>
-			<td>{{ mdoc['count'] }}</td>
-			<td>{{ mdoc['std'] }}</td>
-			<td>{{ mdoc['nstd'] }}</td>
-			<td>{{ mdoc['Mm'] }}</td>
-			<td>{{ mdoc['nstdxMm'] }}</td>
-			<td>{{ mdoc['entropy'] }}</td>
+	{% for i, mdoc in data %}
+		<tr class="pat-wrap">
+			<td>{{ i+1 }}</td>
+			<td class="pat">{{ mdoc['pattern'] }}</td>
+			<td class="num" vtype="count">{{ mdoc['count'] }}</td>
+			<td class="num" vtype="std">{{ mdoc['std'] }}</td>
+			<td class="num" vtype="nstd">{{ mdoc['nstd'] }}</td>
+			<td class="num" vtype="Mm">{{ mdoc['Mm'] }}</td>
+			<td class="num" vtype="nstdxMm">{{ mdoc['nstdxMm'] }}</td>
+			<td class="num" vtype="entropy">{{ mdoc['entropy'] }}</td>
 		</tr>
 	{% endfor %}
 	</table>
@@ -38,4 +55,6 @@
 		</div>
 	</div>	
 </div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/scoring.js') }}"></script>
 {% endblock %}

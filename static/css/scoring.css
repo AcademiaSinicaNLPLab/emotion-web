@@ -1,0 +1,106 @@
+html, body 
+{
+	margin: 0; 
+	padding: 0;
+	width: 100%; 
+	height: 100%;
+	
+}
+a
+{
+	color: inherit; 
+}
+
+
+.filters-wrap
+{
+	width: 280px;
+	height: 64px;
+	right: 30px;
+	position: fixed;
+	top: 18px;
+	font-family: verdana;
+}
+	.fade
+	{
+		opacity: 0.3;
+	}
+	.filters-wrap input
+	{
+		outline: 0;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		clear: both;
+		border-bottom: 1px solid #5787d1;
+		padding: 3px;
+		
+		font-size: 15px;
+		text-align: center;	
+
+	}
+	.filters-wrap select
+	{
+		outline: none;
+		border: 1px solid #444;
+		background: white;
+		border-radius: 0;
+		font-family: inherit;
+		font-weight: bold;
+		color: #3265cc;
+	}
+	.filters-wrap select:focus
+	{
+		border: 1px solid #dc3910;
+	}
+	.filters-wrap input:hover
+	{
+		border-bottom: 1px solid #3265cc;
+	}
+	.filters-wrap input:focus
+	{
+		border-bottom: 1px solid #dc3910; 
+	}
+	.filters-wrap input.filter-name
+	{
+		width: 128px;
+	}
+	.filters-wrap input.filter-value
+	{
+		width: 64px;	
+	}
+	.filters-wrap .filter-info
+	{
+		margin-top: 32px;
+		width: 100%;
+		height: 32px;
+		font-family: "Open Sans";
+		font-size: 32px;
+		text-align: right;
+	}
+
+
+
+table
+{
+	/*font-family: "Open Sans";*/
+	font-family: verdana;
+	color: #444;
+}
+
+	table tr.table-head td
+	{
+		/*font-weight: bold;*/
+		
+	}
+		table tr td
+		{
+			padding: 3px 5px;
+			/*padding: 3px;*/
+		}
+
+		table tr td.num
+		{
+			/*font-family: verdana;*/
+
+		}
