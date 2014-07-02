@@ -44,17 +44,18 @@ def list_sents(emotion, ldocID):
 	else:
 		return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, udocID=udocID, sp_pairs=sp_pairs )
 
-@app.route('/chart')
-@app.route('/chart/')
-def plot():
-	return render_template( 'chart.html' )
+# @app.route('/chart')
+# @app.route('/chart/')
+# def plot():
+# 	return render_template( 'chart.html' )
 
 
-@app.route('/scoring')
-@app.route('/scoring/')
-def show_scoring():
-	pats_stat = fetch_mongo.get_pats_stat(digit=3)
-	return render_template( 'scoring.html', data=pats_stat )
+@app.route('/exp/scoring')
+@app.route('/exp/scoring/')
+@app.route('/exp/scoring/<int:limit>/')
+def show_scoring(limit=100):
+	pats_stat = fetch_mongo.get_pats_stat(limit=limit, digit=3)
+	return render_template( 'scoring.html', data=list(enumerate(pats_stat)) )
 
 
 caching = True

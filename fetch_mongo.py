@@ -39,7 +39,7 @@ def get_emotion_list():
 	emotions = list( co_emotions.find( {'label': 'LJ40K'} ) )
 	return sorted( [x['emotion'] for x in emotions] )
 
-def get_pats_stat(digit=None):
+def get_pats_stat(limit=100, digit=None):
 	import re
 	pats_stat = []
 	for mdoc in co_stat_pats.find({}, {'_id':0}):
@@ -62,6 +62,8 @@ def get_pats_stat(digit=None):
 			mdoc = mdoc_new
 		mdoc['p_len'] = len(mdoc['pattern'])
 		pats_stat.append(mdoc)
+		if limit > 0 and len(pats_stat) >= limit:
+			break
 	return pats_stat
 
 
