@@ -6,7 +6,7 @@ from pprint import pprint
 from datetime import datetime
 
 
-# import instant
+import instant
 
 app = Flask(__name__)
 
@@ -220,7 +220,7 @@ TFIDF_model   = ('538bcfaad4388c59136665df', 'c2g0.001t2')
 pattern_model = ('53876645d4388c6f97360eb2', 'c2g0.001t2') # 100%
 
 models = {}
-print 'loading model',pattern_model
+# print 'loading model',pattern_model
 models['TFIDF'] = svm_wrap.load_models(setting=TFIDF_model)
 models['pattern'] = svm_wrap.load_models(setting=pattern_model)
 eid_map = svm_wrap.get_emotion_map(svm_wrap.emo_2_eid)
@@ -262,8 +262,8 @@ def api_for_predict_article():
 		# p_vals = {}
 
 		weights = {
-			'TFIDF': 0,
-			'pattern': 1.0
+			'TFIDF': 0.7,
+			'pattern': 0.3
 		}
 
 		# p_vals = svm_wrap.fusion_predict(models, weights, features)

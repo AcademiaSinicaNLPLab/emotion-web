@@ -5,7 +5,7 @@ $(document).ready(function(){
 	chart_events();
 	chart_autoStyling();
 
-	bind_color_events();
+	// bind_color_events();
 	// matrix_events();
 
 	instant_events();
