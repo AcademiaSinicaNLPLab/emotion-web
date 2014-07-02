@@ -8,7 +8,7 @@ $(document).ready(function(){
 	// bind_color_events();
 	// matrix_events();
 
-	instant_events();
+	// instant_events();
 	$('#tomatrix').click();
 });
 
@@ -192,8 +192,4 @@ function matrix_events()
 	bind_filter_evnet();
 }
 
-function instant_events()
-{
-	bind_instant_predict_event();
-	bind_feature_options_event();
-}
+
