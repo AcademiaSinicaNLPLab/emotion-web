@@ -250,7 +250,7 @@ def api_for_predict_article():
 
 		# print 'options:',options
 
-		doc = request.form['article'].strip()
+		doc = request.form['article'].strip().lower()
 
 		global stanford_parser
 
