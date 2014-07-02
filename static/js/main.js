@@ -27,7 +27,12 @@ function search_events()
 		$('#chart-container').find('.pattern').text(pat);
 		pat = encodeURIComponent( pat.toLowerCase() );
 
-		var api_url = '/feelit/api/pat_distribution/'+pat;
+
+		var api_url = '/api/pat_distribution/'+pat;
+		if(window.location.pathname.indexOf('doraemon.iis.sinica.edu.tw') > 0)
+		{
+			api_url = '/feelit/api/pat_distribution/'+pat;
+		}
 
 		$('.pat-search-loading').toggleClass('hide');
 		
