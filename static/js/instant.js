@@ -35,11 +35,14 @@ function randomData (){
 }
 function bind_instant_predict_event () {
 	$('#demo-submit-btn').click(function(){
+
 		var text = $('#demo-textarea').val();
 		
+		console.log('!!');
 
 		// var feature_types = $('.feature-checkbox').map(function() { return $(this).val(); }).get();
 		// console.log( feature_types );
+		$('.pat-predict-loading').toggleClass('hide');
 
 		var api_url = '';
 		var found = window.location.pathname.indexOf('/feelit/')
@@ -57,23 +60,13 @@ function bind_instant_predict_event () {
 
 					var parsed = JSON.parse(data);
 
-					// var seq = $.map( parsed, function(i, val){
-						
-					// 	return {label: val[0], value: val[1]}
-					// } );
-
-					// console.log( seq );
-					// var data = data.map();
 					var labels = parsed.map(function(obj){ return { label: obj[0], value: obj[1]}; });
 
 					var d = randomData();
 
 					change(labels);
 
-					// d3.select(".randomize")
-					// 	.on("click", function(){
-					// 		change(randomData());
-					// 	});
+					$('#pie-emotion-wrap').slideDown(300);
 				},
 				204: function (resp) {
 					console.log('[204] no data for "'+decodeURIComponent(text)+'"');
@@ -85,7 +78,18 @@ function bind_instant_predict_event () {
 		}).complete(function(){
 			console.log('complete ajax');
 			// close loading
-			// $('.pat-search-loading').toggleClass('hide');
+			$('.pat-predict-loading').toggleClass('hide');
 		});		
 	});
 }
+
+function instant_events()
+{
+	bind_instant_predict_event();
+	bind_feature_options_event();
+}
+
+$(document).ready(function(){
+
+	instant_events();
+});

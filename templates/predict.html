@@ -8,9 +8,15 @@
 		<textarea id="demo-textarea" type="text">Today's weather is sooooo good. Unfortunately, I have to go to school... go to school...go to school...go to school...go to school...go to school...go to school...go to school.... WHY should I go to school!! God know!!!</textarea>
 	</div>
 
-	<div class="demo-submit-btn">
-		<button id="demo-submit-btn">Predict</button>
+	<div class="demo-submit-wrap">
+		<div class="submit-area-element">
+			<button id="demo-submit-btn">Predict</button>
+		</div>
+		<div class="submit-area-element pat-predict-loading hide">
+			<img width="64px" src="{{ url_for('static', filename='img/loading-rainbow.gif') }}" />
+		</div>		
 	</div>
+
 	
 	<div>
 		<div class="feature-options hide">
@@ -25,13 +31,14 @@
 		</div>		
 	</div>
 
-	<div id="pie-emotion-wrap"></div>
+	<div id="pie-emotion-wrap" class="hide"></div>
 </div>
 
 
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/demo-pie.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/instant.js') }}"></script>
 
 {% endblock %}
 

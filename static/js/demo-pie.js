@@ -9,10 +9,10 @@ svg.append("g")
 svg.append("g")
 	.attr("class", "lines");
 
-var width = 960,
-    height = 600,
-	// radius = Math.min(width, height) / 2;
-	radius = 240;
+var width = 640,
+    height = 460,
+	radius = Math.min(width, height) / 2;
+	// radius = 240;
 
 var pie = d3.layout.pie()
 	.sort(null)
@@ -34,7 +34,9 @@ var key = function(d){ return d.data.label; };
 
 var color = d3.scale.ordinal()
 	.domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
-	.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+	// .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+	.range(["#3265cc","#dc3910","#990299", "#ff9800", "#109618"]);
+	// .range(["#5787d1", "#a173d1", "#6ab975", "#de783b", "#7b605c"]);
 
 function randomData (){
 	var labels = color.domain();
