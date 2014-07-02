@@ -145,3 +145,9 @@ function bind_color_events()
 	});
 	
 }
+
+
+$(document).ready(function(){
+
+	bind_color_events();
+});

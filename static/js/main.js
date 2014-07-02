@@ -29,7 +29,7 @@ function search_events()
 
 
 		var api_url = '/api/pat_distribution/'+pat;
-		if(window.location.pathname.indexOf('doraemon.iis.sinica.edu.tw') > 0)
+		if(window.location.pathname.indexOf('/feelit/') >= 0)
 		{
 			api_url = '/feelit/api/pat_distribution/'+pat;
 		}
