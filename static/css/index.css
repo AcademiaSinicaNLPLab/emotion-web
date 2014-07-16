@@ -7,6 +7,16 @@ html, body
 	background: rgb(23,23,23);
 	-webkit-transform: translate3d(0,0,0);
 }
+a#predict-link i {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	color: #666;
+}
+a#predict-link i:hover {
+	color: #bbb;
+}
+
 a
 {
 	color: inherit; 
