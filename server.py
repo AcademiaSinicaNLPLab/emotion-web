@@ -44,10 +44,31 @@ def list_sents(emotion, ldocID):
 	else:
 		return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, udocID=udocID, sp_pairs=sp_pairs )
 
-# @app.route('/chart')
-# @app.route('/chart/')
-# def plot():
-# 	return render_template( 'chart.html' )
+@app.route('/browse/<int:udocID>/', methods=['GET'])
+def list_sents_via_udocID(udocID):
+
+	# udocID = fetch_mongo.get_udocID(emotion, ldocID)
+	info = fetch_mongo.get_doc_info(udocID)
+	emotion, ldocID = info['emotion'], info['ldocID']
+
+	sp_pairs = fetch_mongo.get_sp_pairs(udocID)
+	
+	### plain text mode
+	if 'text' in request.args:
+		sents = ''
+		for sent, pats in sp_pairs:
+			sents += '<div>'+sent+'</div>'
+		return sents
+	### interactive mode
+	else:
+		return render_template( 'sents.html', emotion=emotion, ldocID=ldocID, udocID=udocID, sp_pairs=sp_pairs )
+
+
+
+@app.route('/chart')
+@app.route('/chart/')
+def plot():
+	return render_template( 'chart.html' )
 
 
 @app.route('/exp/scoring')

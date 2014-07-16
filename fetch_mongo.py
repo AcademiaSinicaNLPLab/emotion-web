@@ -77,6 +77,9 @@ def get_udocID(emotion, ldocID):
 	udocID = co_docmap.find_one( {'emotion': emotion, 'ldocID': ldocID} )['udocID']
 	return udocID
 
+def get_doc_info(udocID):
+	return co_docmap.find_one({ 'udocID': udocID })
+
 def get_sp_pairs(udocID):
 	pairs = []
 	sents = sorted( list( co_sents.find( {'udocID': udocID} ) ), key=lambda x:x['usentID'] )
